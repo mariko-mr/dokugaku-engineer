@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS book_log;
+
+CREATE TABLE book_log(
+     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     title VARCHAR(255),
+     author VARCHAR(255),
+     status VARCHAR(255),
+     rating INTEGER,
+     review VARCHAR(1000),
+     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+ ) DEFAULT CHARACTER SET = utf8mb4;
