@@ -17,15 +17,10 @@ function dbConnect()
     /*
      * ここ以下を修正
      *
-     * INSERT 文を実行し、テーブルにデータを登録するようにする
-     * VALUES で $rating 以外を "" で囲っているのは文字列を VALUES に指定する必要があるため
-     * $rating は整数なので文字列にする必要がない
-     *
-     * なお、$rating には現在文字列が入っているので、型を意識して
-     * $rating = (int) trim(fgets(STDIN));
-     * として、文字列を整数に変換した
+     * エラー処理も関数に追加
+     * 引数で$linkを受け取る
      */
-function createBookLog()
+function createBookLog($link)
 {
     // 読書ログを登録
     echo '読書ログを登録して下さい' . PHP_EOL . PHP_EOL;
@@ -45,8 +40,6 @@ function createBookLog()
     echo '感想：';
     $review = trim(fgets(STDIN));
 
-    echo '登録が完了しました' . PHP_EOL . PHP_EOL;
-
     $sql = <<<EOT
     INSERT INTO book_log (
         title,
@@ -63,7 +56,13 @@ function createBookLog()
     )
     EOT;
 
-    return $sql;
+    $result = mysqli_query($link, $sql);
+    if ($result) {
+        echo '登録が完了しました' . PHP_EOL. PHP_EOL;
+    } else {
+        echo 'Error:データの追加に失敗しました'. PHP_EOL;
+        echo 'Debugging error:' . mysqli_error($link) . PHP_EOL;
+    }
 };
 
 function displayBookLog($bookLogs)
@@ -92,16 +91,9 @@ while (true) {
     if ($num === '1') {
         /*
         * ここを修正
-        * MySQLにデータを保存
+        * 引数に$linkを追加
         */
-        $sql = createBookLog();
-        $result = mysqli_query($link, $sql);
-        if ($result) {
-            echo 'データを追加しました' . PHP_EOL;
-        } else {
-            echo 'Error:データの追加に失敗しました'. PHP_EOL;
-            echo 'Debugging error:' . mysqli_error($link) . PHP_EOL;
-        }
+        $sql = createBookLog($link);
 
     } elseif ($num === '2') {
         displayBookLog($bookLogs);
