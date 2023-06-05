@@ -9,11 +9,22 @@ function dbConnect()
         exit;
     }
 
-    echo 'データーベースに接続できました' . PHP_EOL. PHP_EOL;
+    echo 'データーベースに接続できました' . PHP_EOL . PHP_EOL;
 
     return $link;
 }
 
+    /*
+     * ここ以下を修正
+     *
+     * INSERT 文を実行し、テーブルにデータを登録するようにする
+     * VALUES で $rating 以外を "" で囲っているのは文字列を VALUES に指定する必要があるため
+     * $rating は整数なので文字列にする必要がない
+     *
+     * なお、$rating には現在文字列が入っているので、型を意識して
+     * $rating = (int) trim(fgets(STDIN));
+     * として、文字列を整数に変換した
+     */
 function createBookLog()
 {
     // 読書ログを登録
@@ -29,20 +40,30 @@ function createBookLog()
     $status = trim(fgets(STDIN));
 
     echo '評価：';
-    $rating = trim(fgets(STDIN));
+    $rating = (int)trim(fgets(STDIN));
 
     echo '感想：';
     $review = trim(fgets(STDIN));
 
     echo '登録が完了しました' . PHP_EOL . PHP_EOL;
 
-    return [
-        'title' => $title,
-        'author' => $author,
-        'status' => $status,
-        'rating' => $rating,
-        'review' => $review,
-    ];
+    $sql = <<<EOT
+    INSERT INTO book_log (
+        title,
+        author,
+        status,
+        rating,
+        review
+    ) VALUES (
+        '$title',
+        '$author',
+        '$status',
+        $rating,
+        '$review'
+    )
+    EOT;
+
+    return $sql;
 };
 
 function displayBookLog($bookLogs)
@@ -61,9 +82,6 @@ function displayBookLog($bookLogs)
 
 $link = dbConnect();
 
-$bookLogs = [];
-
-
 while (true) {
     echo '1. 読書ログを登録' . PHP_EOL;
     echo '2. 読書ログを表示' . PHP_EOL;
@@ -72,7 +90,19 @@ while (true) {
     $num = trim(fgets(STDIN));
 
     if ($num === '1') {
-        $bookLogs[] = createBookLog();
+        /*
+        * ここを修正
+        * MySQLにデータを保存
+        */
+        $sql = createBookLog();
+        $result = mysqli_query($link, $sql);
+        if ($result) {
+            echo 'データを追加しました' . PHP_EOL;
+        } else {
+            echo 'Error:データの追加に失敗しました'. PHP_EOL;
+            echo 'Debugging error:' . mysqli_error($link) . PHP_EOL;
+        }
+
     } elseif ($num === '2') {
         displayBookLog($bookLogs);
     } elseif ($num === '9') {
