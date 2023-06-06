@@ -1,9 +1,7 @@
 <?php
 
-/* ここを修正
- * DBに接続する
- */
-function connectDB()
+
+function connectDb()
 {
     $link = mysqli_connect('db', 'book_log', 'pass', 'book_log');
 
@@ -18,13 +16,9 @@ function connectDB()
     return $link;
 };
 
-/* ここを修正
- * sqlクエリを追加
- */
-function createMemo()
-{
-    $link = connectDB();
 
+function createMemo($link)
+{
     echo 'メモを登録してください。' . PHP_EOL;
     $log = fgets(STDIN); // メモの入力
 
@@ -38,26 +32,33 @@ EOT;
     if (!$result) {
         echo '登録できませんでした。';
         echo 'Debugging Error:' . mysqli_error($link) . PHP_EOL;
-    }else{
-        echo '登録できました。';
+    } else {
+        echo '登録できました。' . PHP_EOL . PHP_EOL;
     };
-
-    mysqli_free_result($result);
-    var_export($result);
 }
 
-function displayMemo($memos)
+/* ここを修正
+ * displayMemo()を変更
+ */
+function displayMemo($link)
 {
-    foreach ($memos as $memo) {
-        echo $memo['log'];
-        echo  '-----------------------------' . PHP_EOL;
-    }
+    $sql = <<< EOT
+    SELECT memo, created_time FROM memo
+EOT;
+
+    $results = mysqli_query($link, $sql);
+
+    while ($memo = mysqli_fetch_array($results)) {
+        echo $memo['memo'] . PHP_EOL . PHP_EOL;
+        echo $memo['created_time'] . PHP_EOL;
+        echo '-------------------------' . PHP_EOL . PHP_EOL;
+    };
+
+    mysqli_free_result($results);
 };
 
-/* ここを修正
- * createMemo()を変更
- */
-createMemo();
+$link = connectDb();
+createMemo($link);
 
 while (true) {
     echo '1. メモを登録する' . PHP_EOL;
@@ -68,15 +69,17 @@ while (true) {
 
 
     if ($num === 1) {
-        /* ここを修正
-         * createMemo()を変更
-         */
-        createMemo();
+        createMemo($link);
     } elseif ($num === 2) {
-        // メモを閲覧する
-        displayMemo($memos);
+        /* ここを修正
+         * displayMemo()引数を修正
+         */
+        displayMemo($link);
     } elseif ($num === 9) {
-        // 終了する
+        /* ここを修正
+         * mysqli_close()を修正
+         */
+        mysqli_close($link);
         exit;
     } else {
         echo '※【1, 2, 9】から選択してください' . PHP_EOL . PHP_EOL;
