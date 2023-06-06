@@ -16,28 +16,28 @@ function dbConnect()
 
 function createBookLog($link)
 {
-    $book_logs = [];
+    $book_log = [];
 
     echo '読書ログを登録して下さい' . PHP_EOL . PHP_EOL;
 
     echo '書籍名：';
-    $book_logs['title'] = trim(fgets(STDIN));
+    $book_log['title'] = trim(fgets(STDIN));
 
     echo '著者名：';
-    $book_logs['author'] = trim(fgets(STDIN));
+    $book_log['author'] = trim(fgets(STDIN));
 
     echo '読書状況(未読 , 読んでる, 読了):';
-    $book_logs['status'] = trim(fgets(STDIN));
+    $book_log['status'] = trim(fgets(STDIN));
 
     echo '評価：';
-    $book_logs['rating'] = (int)trim(fgets(STDIN));
+    $book_log['rating'] = (int)trim(fgets(STDIN));
 
     echo '感想：';
-    $book_logs['review'] = trim(fgets(STDIN));
+    $book_log['review'] = trim(fgets(STDIN));
 
-    $validated = validate($book_logs);
+    $validated = validate($book_log);
     if (count($validated) > 0) {
-        foreach ($validated as $error); {
+        foreach ($validated as $error) {
             echo $error . PHP_EOL;
         }
         return;
@@ -51,11 +51,11 @@ function createBookLog($link)
         rating,
         review
     ) VALUES (
-        "{$book_logs['title']}",
-        "{$book_logs['author']}",
-        "{$book_logs['status']}",
-        "{$book_logs['rating']}",
-        "{$book_logs['review']}"
+        "{$book_log['title']}",
+        "{$book_log['author']}",
+        "{$book_log['status']}",
+        "{$book_log['rating']}",
+        "{$book_log['review']}"
     )
     EOT;
 
@@ -68,22 +68,48 @@ function createBookLog($link)
     }
 };
 
-function validate($book_logs)
+function validate($book_log)
 {
+    /*
+     * validate関数の中に追記する
+     */
+
     $errors = [];
+    
     //書籍名が正しく入力されているかチェック
-    if (!strlen($book_logs['title'])) {
+    if (!strlen($book_log['title'])) {
         $errors['title'] = '書籍名を入力してください';
-    } elseif (strlen($book_logs['title']) > 255) {
+    } elseif (strlen($book_log['title']) > 255) {
         $errors['title'] = '書籍名は255文字以内で入力してください';
     }
 
+    //著者名が正しく入力されているかチェック
+    if (!strlen($book_log['author'])) {
+        $errors['author'] = '著者名を入力してください';
+    } elseif (strlen($book_log['author']) > 255) {
+        $errors['author'] = '著者名は255文字以内で入力してください';
+    }
+
+    //読書状況が正しく入力されているかチェック
+    $status = ['未読', '読んでる', '読了'];
+    if (!strlen($book_log['status'])) {
+        $errors['status'] = '読書状況を入力してください';
+    } elseif (!in_array($book_log['status'], $status, TRUE)) {
+        $errors['title'] = '（未読,読んでる,読了）から入力してください';
+    }
+
     //評価(5点満点の整数)が正しく入力されているかチェック
-    if ($book_logs['rating'] !== (int)$book_logs['rating']) { //整数ではないなら
-        $errors['rating'] = '整数を入力してください';
-    } elseif ($book_logs['rating'] < 1 || $book_logs['rating'] > 5) { //1以上5以下でないなら
+    if ($book_log['rating'] < 1 || $book_log['rating'] > 5) { //1以上5以下でないなら
         $errors['rating'] = '1以上5以下の整数を入力してください';
     };
+
+    //感想が正しく入力されているかチェック
+    if (!strlen($book_log['review'])) {
+        $errors['review'] = '感想を入力してください';
+    } elseif (strlen($book_log['review']) > 1000) {
+        $errors['review'] = '感想は1000文字以内で入力してください';
+    }
+
 
     return $errors;
 };
