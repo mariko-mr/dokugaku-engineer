@@ -9,8 +9,6 @@ function dbConnect()
         exit;
     }
 
-    echo 'データーベースに接続できました' . PHP_EOL . PHP_EOL;
-
     return $link;
 }
 
@@ -70,12 +68,8 @@ function createBookLog($link)
 
 function validate($book_log)
 {
-    /*
-     * validate関数の中に追記する
-     */
-
     $errors = [];
-    
+
     //書籍名が正しく入力されているかチェック
     if (!strlen($book_log['title'])) {
         $errors['title'] = '書籍名を入力してください';
@@ -110,21 +104,33 @@ function validate($book_log)
         $errors['review'] = '感想は1000文字以内で入力してください';
     }
 
-
     return $errors;
 };
 
-// function displayBookLog($bookLogs)
-// {
-//     foreach ($bookLogs as $bookLog) {
-//         echo '書籍名：' . $bookLog['title'] . PHP_EOL;
-//         echo '著者名：' . $bookLog['author'] . PHP_EOL;
-//         echo '読書状況：' . $bookLog['status'] . PHP_EOL;
-//         echo '評価：' . $bookLog['rating'] . PHP_EOL;
-//         echo '感想：' . $bookLog['review'] . PHP_EOL;
-//         echo '-------------' . PHP_EOL;
-//     }
-// };
+function displayBookLog($link)
+{
+    /*
+     * displayBookLog関数を修正
+     */
+
+    $sql = <<< EOT
+    SELECT title, author, status, rating, review
+    FROM book_log
+    EOT;
+
+    $results = mysqli_query($link, $sql);
+
+    while ($book_log = mysqli_fetch_assoc($results)) {
+        echo '書籍名：' . $book_log['title'] . PHP_EOL;
+        echo '著者名：' . $book_log['author'] . PHP_EOL;
+        echo '読書状況：' . $book_log['status'] . PHP_EOL;
+        echo '評価：' . $book_log['rating'] . PHP_EOL;
+        echo '感想：' . $book_log['review'] . PHP_EOL;
+        echo '-------------' . PHP_EOL;
+    }
+
+    mysqli_free_result($results);
+};
 
 $link = dbConnect();
 
@@ -138,10 +144,12 @@ while (true) {
     if ($num === '1') {
         createBookLog($link);
     } elseif ($num === '2') {
-        // displayBookLog($bookLogs);
+    /*
+     * displayBookLog関数の引数を修正
+     */
+        displayBookLog($link);
     } elseif ($num === '9') {
         mysqli_close($link);
-        echo 'データーベースとの接続を切断しました' . PHP_EOL;
         break;
     }
 };
