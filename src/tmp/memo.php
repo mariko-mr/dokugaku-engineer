@@ -20,7 +20,18 @@ function connectDb()
 function createMemo($link)
 {
     echo 'メモを登録してください。' . PHP_EOL;
-    $log = fgets(STDIN); // メモの入力
+
+    /* ここを修正
+     * 半角, 全角スペースともに除去
+     * エラーがあればループに戻る
+     */
+    $log = preg_replace("/(^\s+)|(\s+$)/u", "", fgets(STDIN)); // メモの入力
+
+    $error = validate($log);
+    if (!empty($error)) {
+        echo $error;
+        return;
+    };
 
     $sql = <<<EOT
     INSERT INTO memo (
@@ -37,9 +48,6 @@ EOT;
     };
 }
 
-/* ここを修正
- * displayMemo()を変更
- */
 function displayMemo($link)
 {
     $sql = <<< EOT
@@ -57,6 +65,23 @@ EOT;
     mysqli_free_result($results);
 };
 
+/* ここを修正
+ * validate()を追加
+ */
+function validate($log)
+{
+    $error = '';
+
+    // 入力に誤りがあればエラーを返す
+    if (empty($log)) { // 入力されていない場合
+        $error = 'メモを入力してください' . PHP_EOL;
+    } elseif (strlen($log) > 3000) { // 文字数を超えた場合
+        $error = '3000文字以内で入力してください' . PHP_EOL;
+    }
+
+    return $error;
+};
+
 $link = connectDb();
 createMemo($link);
 
@@ -71,14 +96,8 @@ while (true) {
     if ($num === 1) {
         createMemo($link);
     } elseif ($num === 2) {
-        /* ここを修正
-         * displayMemo()引数を修正
-         */
         displayMemo($link);
     } elseif ($num === 9) {
-        /* ここを修正
-         * mysqli_close()を修正
-         */
         mysqli_close($link);
         exit;
     } else {
