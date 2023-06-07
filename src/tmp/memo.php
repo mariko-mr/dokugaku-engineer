@@ -1,6 +1,5 @@
 <?php
 
-
 function connectDb()
 {
     $link = mysqli_connect('db', 'book_log', 'pass', 'book_log');
@@ -16,15 +15,10 @@ function connectDb()
     return $link;
 };
 
-
 function createMemo($link)
 {
     echo 'メモを登録してください。' . PHP_EOL;
 
-    /* ここを修正
-     * 半角, 全角スペースともに除去
-     * エラーがあればループに戻る
-     */
     $log = preg_replace("/(^\s+)|(\s+$)/u", "", fgets(STDIN)); // メモの入力
 
     $error = validate($log);
@@ -65,9 +59,6 @@ EOT;
     mysqli_free_result($results);
 };
 
-/* ここを修正
- * validate()を追加
- */
 function validate($log)
 {
     $error = '';
