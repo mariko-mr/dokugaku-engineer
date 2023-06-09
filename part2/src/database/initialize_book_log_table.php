@@ -1,8 +1,18 @@
 <?php
 
+require __DIR__ . '/../vendor/autoload.php';
+
 function connectDb()
 {
-    $link = mysqli_connect('db', 'book_log', 'pass', 'book_log');
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+    $dotenv->load();
+
+    $dbHost = $_ENV['DB_HOST'];
+    $dbUserName = $_ENV['DB_USERNAME'];
+    $dbPassword = $_ENV['DB_PASSWORD'];
+    $dbDatabase = $_ENV['DB_DATABASE'];
+
+    $link = mysqli_connect($dbHost, $dbUserName, $dbPassword, $dbDatabase);
     if (!$link) {
         echo 'Error:データベースに接続できませんでした' . PHP_EOL;
         echo 'Debugging error:' . mysqli_connect_error() . PHP_EOL;
@@ -15,11 +25,11 @@ function dropTable($link)
 {
     $dropTableSql = 'DROP TABLE IF EXISTS book_log;';
     $result = mysqli_query($link, $dropTableSql);
-    if(!$result){
-        echo 'Error:テーブルを削除できませんでした'.PHP_EOL;
+    if (!$result) {
+        echo 'Error:テーブルを削除できませんでした' . PHP_EOL;
         echo 'Debugging error:' . mysqli_error($link) . PHP_EOL;
-    }else{
-        echo 'Error:テーブルを削除できました'.PHP_EOL;
+    } else {
+        echo 'テーブルを削除できました' . PHP_EOL;
     }
 }
 
@@ -38,11 +48,11 @@ function createTable($link)
 EOT;
 
     $result = mysqli_query($link, $createTableSql);
-    if(!$result){
-        echo 'Error:テーブルを作成できませんでした'.PHP_EOL;
+    if (!$result) {
+        echo 'Error:テーブルを作成できませんでした' . PHP_EOL;
         echo 'Debugging error:' . mysqli_error($link) . PHP_EOL;
-    }else{
-        echo 'Error:テーブルを作成できました'.PHP_EOL;
+    } else {
+        echo 'テーブルを作成できました' . PHP_EOL;
     }
 }
 
