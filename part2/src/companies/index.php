@@ -8,6 +8,6 @@
     <title>会社情報の一覧</title>
 </head>
 <body>
-
+<h1>会社情報の一覧</h1>
 </body>
 </html>
