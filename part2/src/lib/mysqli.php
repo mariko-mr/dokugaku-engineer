@@ -1,11 +1,11 @@
-<?php
+<?php //library
 
-require __DIR__ . '/../../vendor/autoload.php'; //現在のディレクトリ(__DIR__)のその下(/../..)にあるvendor/autoload/phpを読み込む
+require __DIR__ . '/../vendor/autoload.php'; //現在のディレクトリ(__DIR__)のその下(/../..)にあるvendor/autoload/phpを読み込む
 
 function dbConnect()
 {
 
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__. '/../..');
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__. '/..');
     $dotenv->load();
 
     $dbHost = $_ENV['DB_HOST'];
