@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
 
     $errors = validate($company);
-    if (!count($errors)) {
+    if (empty($errors)) {
         $link = dbConnect();
         createCompany($link, $company);
         mysqli_close($link);
