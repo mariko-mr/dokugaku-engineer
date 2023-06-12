@@ -28,7 +28,50 @@ EOT;
     }
 }
 
-// var_export($_POST);
+function validate($book_log)
+{
+
+    $errors = [];
+
+    // title
+    if (!strlen($book_log['title'])) {
+        $errors['title'] =  '書籍名を入力してください';
+    } elseif (strlen($book_log['title']) > 255) {
+        $errors['title'] =  '書籍名は255文字以内で入力してください';
+    }
+
+    // author
+    if (!strlen($book_log['author'])) {
+        $errors['author'] =  '著者名を入力してください';
+    } elseif (strlen($book_log['author']) > 255) {
+        $errors['author'] =  '著者名は255文字以内で入力してください';
+    }
+
+    // status
+    $status = ['未読', '読んでいる', '読了'];
+    if (!strlen($book_log['status'])) {
+        $errors['status'] =  '読書状況を入力してください';
+    } elseif (!in_array($_POST['status'], $status, true)) {
+        $errors['status'] =  '未読、読んでいる、読了から選択してください';
+    }
+
+    // rating
+    // 未入力ならエラー
+    // 整数じゃないならエラー
+    // １～５じゃないならエラー
+
+
+    // review
+    if (!strlen($book_log['review'])) {
+        $errors['review'] =  '感想を入力してください';
+    } elseif (strlen($book_log['review']) > 1000) {
+        $errors['review'] =  '感想は1000文字以内で入力してください';
+    }
+
+    return $errors;
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $book_log = [
@@ -39,9 +82,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'review' => $_POST['review']
     ];
 
-    $link = dbConnect();
-    createBookLog($book_log, $link);
-    mysqli_close($link);
+    // バリデーションする
+    $errors = validate($book_log);
+    // エラーが無ければ登録処理する
+    if (empty($errors)) {
+        $link = dbConnect();
+        createBookLog($book_log, $link);
+        mysqli_close($link);
 
-    header("Location:index.php");
+        header("Location:index.php");
+    } else {
+        foreach ($errors as $error) {
+            echo $error . PHP_EOL;
+        }
+    }
 }
+?>
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>読書ログの登録</title>
+</head>
+<!-- phpでエラーを表示させる -->
+<body>
+    <h1>読書ログの登録</h1>
+    <form action="create.php" method="POST">
+        <div>
+            <label for="title">書籍名</label>
+            <input type="text" id="title" name="title">
+        </div>
+        <div>
+            <label for="author">著者名</label>
+            <input type="text" id="author" name="author">
+        </div>
+        <div>
+            <label>読書状況</label>
+            <div>
+                <div>
+                    <input type="radio" id="status_unread" name="status" value="未読" checked>
+                    <label for="status_unread">未読</label>
+                </div>
+                <div>
+                    <input type="radio" id="status_inProgress" name="status" value="読んでいる">
+                    <label for="status_inProgress">読んでいる</label>
+                </div>
+                <div>
+                    <input type="radio" id="status_completed" name="status" value="読了">
+                    <label for="status_completed">読了</label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <label for="rating">評価(5点満点の整数)</label>
+            <input type="number" id="rating" name="rating">
+        </div>
+        <div>
+            <label for="review">感想</label>
+            <textarea name="review" id="review"></textarea>
+        </div>
+        <button type="submit">登録する</button>
+    </form>
+</body>
+
+</html>
