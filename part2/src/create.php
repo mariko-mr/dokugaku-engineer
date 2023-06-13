@@ -56,10 +56,11 @@ function validate($book_log)
     }
 
     // rating
-    // 未入力ならエラー
-    // 整数じゃないならエラー
-    // １～５じゃないならエラー
-
+    if (!is_int($book_log['rating'])) {
+        $errors['rating'] = '整数を入力してください';
+    } elseif ($book_log['rating'] < 1 || $book_log['rating'] > 5) {
+        $errors['rating'] = '評価は1~5の整数を入力してください';
+    }
 
     // review
     if (!strlen($book_log['review'])) {
@@ -78,23 +79,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'title' => $_POST['title'],
         'author' => $_POST['author'],
         'status' => $_POST['status'],
-        'rating' => $_POST['rating'],
+        'rating' => (int)$_POST['rating'],
         'review' => $_POST['review']
     ];
 
-    // バリデーションする
     $errors = validate($book_log);
-    // エラーが無ければ登録処理する
+
     if (empty($errors)) {
         $link = dbConnect();
         createBookLog($book_log, $link);
         mysqli_close($link);
 
         header("Location:index.php");
-    } else {
-        foreach ($errors as $error) {
-            echo $error . PHP_EOL;
-        }
     }
 }
 ?>
@@ -106,9 +102,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>読書ログの登録</title>
 </head>
-<!-- phpでエラーを表示させる -->
+
 <body>
     <h1>読書ログの登録</h1>
+
+    <ul>
+        <?php if (!empty($errors)) : ?>
+            <?php foreach ($errors as $error) : ?>
+                <li> <?php echo $error ?></li>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </ul>
+
+
     <form action="create.php" method="POST">
         <div>
             <label for="title">書籍名</label>
@@ -137,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div>
             <label for="rating">評価(5点満点の整数)</label>
-            <input type="number" id="rating" name="rating">
+            <input type="number" id="rating" name="rating" min="1" max="5" step="1">
         </div>
         <div>
             <label for="review">感想</label>
