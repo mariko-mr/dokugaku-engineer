@@ -51,7 +51,7 @@ function validate($book_log)
     $status = ['未読', '読んでいる', '読了'];
     if (!strlen($book_log['status'])) {
         $errors['status'] =  '読書状況を入力してください';
-    } elseif (!in_array($_POST['status'], $status, true)) {
+    } elseif (!in_array($book_log['status'], $status, true)) {
         $errors['status'] =  '未読、読んでいる、読了から選択してください';
     }
 
@@ -66,7 +66,7 @@ function validate($book_log)
     if (!strlen($book_log['review'])) {
         $errors['review'] =  '感想を入力してください';
     } elseif (strlen($book_log['review']) > 1000) {
-        $errors['review'] =  '感想は1000文字以内で入力してください';
+        $errors['review'] =  '感想は1,000文字以内で入力してください';
     }
 
     return $errors;
@@ -106,13 +106,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <h1>読書ログの登録</h1>
 
-    <ul>
-        <?php if (!empty($errors)) : ?>
+    <?php if (!empty($errors)) : ?>
+        <ul>
             <?php foreach ($errors as $error) : ?>
-                <li> <?php echo $error ?></li>
+                <li> <?php echo $error; ?></li>
             <?php endforeach; ?>
-        <?php endif; ?>
-    </ul>
+        </ul>
+    <?php endif; ?>
 
 
     <form action="create.php" method="POST">
