@@ -1,0 +1,21 @@
+// /bin/bashでコンテナ内に入ってから下記のコマンドを実行。コンパイルできる。
+// vendor/scssphp/scssphp/bin/pscss stylesheets/sass/app.scss stylesheets/css/app.css
+
+// line-height
+$headings-line-height: 1.5;
+$line-height-base: 1.65;
+
+// colors
+$gray-dark: #546e7a;
+
+// font-family
+
+// どちらの書き方もOK
+// @import "/var/www/html/vendor/twbs/bootstrap/scss/bootstrap";
+@import "../../vendor/twbs/bootstrap/scss/bootstrap";
+
+body {
+  letter-spacing: 0.1em;
+  text-align: justify;
+  font-family: 游ゴシック体, YuGothic, "Yu Gothic", "メイリオ", Meiryo;
+}
