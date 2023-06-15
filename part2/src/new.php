@@ -1,5 +1,5 @@
 <?php
-// ここを追記
+
 $book_log = [
     'title' => '',
     'author' => '',
@@ -7,4 +7,8 @@ $book_log = [
     'rating' => (int)'',
     'review' => ''
 ];
-include 'views/new.php';
+
+$title = '読書ログの登録';
+$content = __DIR__ . '/views/new.php';
+
+include __DIR__ . '/views/layout.php';
