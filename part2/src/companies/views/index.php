@@ -3,12 +3,21 @@
     </div>
     <div><a href="new.php">会社情報を登録する</a></div>
     <main>
-        <section>
-            <h2>株式会社メルカリ</h2>
-            <div>創業：2000年｜代表：わたし</div>
-        </section>
-        <section>
-            <h2>株式会社メルカリ</h2>
-            <div>創業：2000年｜代表：わたし</div>
-        </section>
+
+        <?php if (count($companies) > 0) : ?>
+
+            <?php foreach ($companies as $company) : ?>
+                <section>
+                    <h2><?php echo $company['name']; ?></h2>
+                    <div>創業&nbsp;:&nbsp;
+                        <?php echo $company['establishment_date']; ?>
+                        &nbsp;|&nbsp;代表&nbsp;:&nbsp;
+                        <?php echo $company['founder']; ?></div>
+                </section>
+            <?php endforeach; ?>
+
+        <?php else : ?>
+            <p>会社情報が登録されていません。</p>
+        <?php endif; ?>
+
     </main>
