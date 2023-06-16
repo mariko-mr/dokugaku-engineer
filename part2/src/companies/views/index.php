@@ -8,11 +8,12 @@
 
             <?php foreach ($companies as $company) : ?>
                 <section>
-                    <h2><?php echo $company['name']; ?></h2>
+                    <h2><?php echo escape($company['name']); ?></h2>
                     <div>創業&nbsp;:&nbsp;
-                        <?php echo $company['establishment_date']; ?>
+                        <?php echo escape($company['establishment_date']); ?>
                         &nbsp;|&nbsp;代表&nbsp;:&nbsp;
-                        <?php echo $company['founder']; ?></div>
+                        <?php echo escape($company['founder']); ?>
+                    </div>
                 </section>
             <?php endforeach; ?>
 
