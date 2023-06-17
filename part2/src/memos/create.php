@@ -1,9 +1,18 @@
 <?php
 
-// データベースに接続する
+require __DIR__ . '/../vendor/autoload.php';
+
 function dbConnect()
 {
-    $link = mysqli_connect('db', 'book_log', 'pass', 'book_log');
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+    $dotenv->load();
+
+    $hostname = $_ENV['DB_HOST'];
+    $username = $_ENV['DB_USERNAME'];
+    $password = $_ENV['DB_PASSWORD'];
+    $database = $_ENV['DB_DATABASE'];
+
+    $link = mysqli_connect($hostname, $username, $password, $database);
 
     if (!$link) {
         echo 'Error:データベースに接続できませんでした' . PHP_EOL;
