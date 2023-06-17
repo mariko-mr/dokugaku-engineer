@@ -23,34 +23,47 @@ function dbConnect()
     return $link;
 }
 
+function validate($memo)
+{
+    $error = '';
+
+    if (!strlen($memo)) {
+        $error = 'メモを入力して下さい';
+    } elseif (strlen($memo) > 3) {
+        $error = 'メモは3000字以内で入力してください';
+    }
+
+    return $error;
+}
+
 function createMemo($link)
 {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $memo = $_POST["memo"];
 
-        // バリデーション処理
-        if (!strlen($_POST["memo"])) {
-            echo 'メモを入力して下さい';
-            exit;
-        }
+    $error = validate($memo);
+    if (!empty($error)) {
+        echo $error;
+        exit;
+    }
 
-        $memo = $_POST["memo"];
-
-        $sql = <<< EOT
+    $sql = <<< EOT
         INSERT INTO memo(memo)
         VALUES ('$memo');
 EOT;
 
-        $result = mysqli_query($link, $sql);
-        if (!$result) {
-            echo 'Error:メモを登録できませんでした' . PHP_EOL;
-            echo 'Debugging error:' . mysqli_error($link) . PHP_EOL;
-            exit;
-        }
+    $result = mysqli_query($link, $sql);
+    if (!$result) {
+        echo 'Error:メモを登録できませんでした' . PHP_EOL;
+        echo 'Debugging error:' . mysqli_error($link) . PHP_EOL;
+        exit;
     }
 }
 
-$link = dbConnect();
-createMemo($link);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $link = dbConnect();
+    createMemo($link);
+}
 
 ?>
 <!DOCTYPE html>
