@@ -25,8 +25,6 @@ function dbConnect()
 
 function createMemo($link, $memo)
 {
-
-
     $sql = <<< EOT
         INSERT INTO memo(memo)
         VALUES ('$memo');
@@ -38,4 +36,27 @@ EOT;
         echo 'Debugging error:' . mysqli_error($link) . PHP_EOL;
         exit;
     }
+}
+
+function listMemos($link)
+{
+    $sql = <<< EOT
+        SELECT memo, created_time
+        FROM memo;
+EOT;
+
+    $results = mysqli_query($link, $sql);
+    if (!$results) {
+        echo 'Error:メモを取得できませんでした' . PHP_EOL;
+        echo 'Debugging error:' . mysqli_error($link) . PHP_EOL;
+        exit;
+    }
+
+    while ($memo = mysqli_fetch_assoc($results)) {
+        $memos[] = $memo;
+    }
+
+    mysqli_free_result($results);
+
+    return $memos;
 }
