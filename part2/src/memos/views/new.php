@@ -1,4 +1,7 @@
 <div>
+    <!-- バリデーションエラーの場合 -->
+    <?php echo $error; ?>
+
     <form action="create.php" method="post" class="">
         <div>
             <label for="memo">メモ入力欄</label>

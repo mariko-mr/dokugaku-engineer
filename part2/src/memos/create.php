@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/lib/mysqli.php';
+require_once __DIR__ . '/lib/mysqli.php';
 
 function validate($memo)
 {
@@ -15,7 +15,6 @@ function validate($memo)
     return $error;
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $memo = $_POST["memo"];
@@ -24,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $error = validate($memo);
     if (!empty($error)) {
-        // echo $error;
         include 'new.php';
         exit;
     }
