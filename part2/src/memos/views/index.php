@@ -1,12 +1,16 @@
 <main>
-    <section>
-        <time datetime="2023-06-17">2023-06-17</time>
-        <div>メモの内容</div>
-    </section>
-    <section>
-        <time datetime="2023-06-17">2023-06-17</time>
-        <div>メモの内容</div>
-    </section>
+
+    <?php foreach ($memos as $memo) : ?>
+        <section>
+            <time datetime="<?php echo $memo['created_time']; ?>">
+                <?php echo escape($memo['created_time']); ?>
+            </time>
+            <div>
+                <?php echo escape($memo['memo']); ?>
+            </div>
+        </section>
+    <?php endforeach; ?>
+
 </main>
 
 <div>
