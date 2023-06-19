@@ -42,7 +42,8 @@ function listMemos($link)
 {
     $sql = <<< EOT
         SELECT memo, created_time
-        FROM memo;
+        FROM memo
+        ORDER BY created_time DESC;
 EOT;
 
     $results = mysqli_query($link, $sql);
