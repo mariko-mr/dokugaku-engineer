@@ -1,0 +1,9 @@
+$line-height-base: 1.65;
+$letter-spacing: 0.1em;
+
+@import "../../../vendor/twbs/bootstrap/scss/bootstrap";
+
+body {
+  font-family: "Noto Sans JP", sans-serif;
+  color: #333333;
+}

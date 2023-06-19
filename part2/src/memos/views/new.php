@@ -1,19 +1,21 @@
-<div>
+<div class="mt-5">
     <!-- バリデーションエラーの場合 -->
-    <?php echo $error; ?>
+    <div class="text-danger">
+        <?php echo $error; ?>
+    </div>
 
-    <form action="create.php" method="post" class="">
-        <div>
-            <label for="memo">メモ入力欄</label>
+    <form action="create.php" method="post" class="mt-4">
+        <div class="form-group">
+            <label for="memo" class="h5">メモ入力欄</label>
         </div>
-        <div>
-            <textarea name="memo" id="memo" cols="100" rows="5"></textarea>
+        <div class="form-group">
+            <textarea name="memo" id="memo" cols="80" rows="10" class="form-control"></textarea>
         </div>
-        <div>
-            <button type="submit">メモを登録する</button>
+        <div class="mt-2">
+            <button type="submit" class="btn btn-dark">メモを登録する</button>
         </div>
     </form>
-    <div>
-        <a href="index.php">メモを閲覧する</a>
+    <div class="mt-4">
+        <a href="index.php" class="btn btn-light">メモを閲覧する</a>
     </div>
 </div>
