@@ -25,16 +25,24 @@ function createWatchingData($input)
             ];
         }
     }
+    /* ここを修正
+     * キーで昇順にソート
+     */
+    ksort($channelData);
+
     return $channelData;
 }
 
 // 視聴時間を計算する
+/* ここを修正
+ * 変数名を修正
+ */
 function calWatchingHour($channelData)
 {
     $watchingMins = 0;
 
-    foreach ($watchingData as $channelData) {
-        $watchingMins += $channelData['minutes'];
+    foreach ($channelData as $channel) {
+        $watchingMins += $channel['minutes'];
     }
 
     $watchingHours = round(($watchingMins / 60), 1);
@@ -61,7 +69,7 @@ function outputWatchingData($channelData)
 // コマンドラインの引き数から入力を取得
 $input = $argv;
 $channelData = createWatchingData($input);
-calWatchingHour($watchingData);
+calWatchingHour($channelData);
 // outputWatchingData($watchingData);
 
 var_export($channelData);
