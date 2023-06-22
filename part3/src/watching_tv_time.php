@@ -41,13 +41,8 @@ function calWatchingHour($channelData)
     echo $watchingHours . PHP_EOL;
 }
 
-/* ここを修正
- *
- */
-// 視聴チャンネルと視聴時間と回数を出力
 function outputWatchingData($channelData)
 {
-    // $channelData内全ての配列について出力
     foreach ($channelData as $channel => $data) {
         echo $channel . ' ' . $data['minutes'] . ' ' . $data['count'] . PHP_EOL;
     }
@@ -59,15 +54,3 @@ $input = $argv;
 $channelData = createWatchingData($input);
 calWatchingHour($channelData);
 outputWatchingData($channelData);
-
-
-// 以下は全てあとで消す
-// var_export($channelData);
-
-// docker compose exec app php watching_tv_time.php 1 30 5 25 2 30 1 15
-
-/* アウトプット
- * テレビの合計視聴時間
- * テレビのチャンネル 視聴分数 視聴回数
- * テレビのチャンネル 視聴分数 視聴回数
- */
