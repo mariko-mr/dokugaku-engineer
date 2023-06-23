@@ -1,5 +1,8 @@
 <?php
 
+/* ここを修正
+ * エラー文をcreateWatchingData()へ移動
+ */
 // バリデーション処理する
 function validated($channel, $minutes)
 {
@@ -12,27 +15,30 @@ function validated($channel, $minutes)
     if ($minutes < 1 || $minutes > 1440) {
         $validated[] = '視聴分数は1〜1440の範囲で指定してください。';
     }
-    // エラーがあればエラー文を出して処理を終了する
-    if (!empty($validated)) {
-        foreach ($validated as $error) {
-            echo $error . PHP_EOL;
-        }
-        exit;
-    }
+
+    return $validated;
 }
 
+/* ここを修正
+ * エラー文を表示させるコードを追加
+ */
 function createWatchingData($input)
 {
     // スクリプト名を削除する
     array_shift($input);
-
     $channelData = [];
 
     for ($i = 0; $i < count($input); $i += 2) {
         $channel = (int)$input[$i];
         $minutes = (int)$input[$i + 1];
 
-        validated($channel, $minutes);
+        $validated = validated($channel, $minutes);
+        if (!empty($validated)) {
+            foreach ($validated as $error) {
+                echo $error . PHP_EOL;
+            }
+            continue;
+        }
 
         if (isset($channelData[$channel])) {
             // すでにチャンネルがある場合は視聴時間と回数を更新
@@ -46,7 +52,6 @@ function createWatchingData($input)
             ];
         }
     }
-
     ksort($channelData);
 
     return $channelData;
