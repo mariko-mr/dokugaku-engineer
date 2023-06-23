@@ -1,5 +1,7 @@
 <?php
 
+const HOURS = 60;
+
 function validated($channel, $minutes)
 {
     $validated = [];
@@ -15,10 +17,6 @@ function validated($channel, $minutes)
     return $validated;
 }
 
-/* ここを修正
- * 変数名の変更 $validate → $currentErrors
- * エラー文が重複しないようarray_replace()を追加
- */
 function createWatchingData($input)
 {
     // スクリプト名を削除する
@@ -31,6 +29,7 @@ function createWatchingData($input)
         $minutes = (int)$input[$i + 1];
 
         $currentErrors = validated($channel, $minutes);
+        // エラー文の重複を回避している
         if (!empty($currentErrors)) {
             $errors = array_replace($errors, $currentErrors);
             continue;
@@ -68,7 +67,7 @@ function calWatchingHour($channelData)
         $watchingMins += $data['minutes'];
     }
 
-    $watchingHours = round(($watchingMins / 60), 1);
+    $watchingHours = round(($watchingMins / HOURS), 1);
     echo $watchingHours . PHP_EOL;
 }
 
@@ -88,5 +87,4 @@ outputWatchingData($channelData);
 
 /* あとで消す
  * docker compose exec app php watching_tv_time.php 1 30 5 25 2 30 1 15
- * docker compose exec app php watching_tv_time.php 14 30 5 25 2 30 1 15
  */
