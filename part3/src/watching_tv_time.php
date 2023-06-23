@@ -1,9 +1,5 @@
 <?php
 
-/* ここを修正
- * エラー文をcreateWatchingData()へ移動
- */
-// バリデーション処理する
 function validated($channel, $minutes)
 {
     $validated = [];
@@ -20,23 +16,23 @@ function validated($channel, $minutes)
 }
 
 /* ここを修正
- * エラー文を表示させるコードを追加
+ * 変数名の変更 $validate → $currentErrors
+ * エラー文が重複しないようarray_replace()を追加
  */
 function createWatchingData($input)
 {
     // スクリプト名を削除する
     array_shift($input);
     $channelData = [];
+    $errors = [];
 
     for ($i = 0; $i < count($input); $i += 2) {
         $channel = (int)$input[$i];
         $minutes = (int)$input[$i + 1];
 
-        $validated = validated($channel, $minutes);
-        if (!empty($validated)) {
-            foreach ($validated as $error) {
-                echo $error . PHP_EOL;
-            }
+        $currentErrors = validated($channel, $minutes);
+        if (!empty($currentErrors)) {
+            $errors = array_replace($errors, $currentErrors);
             continue;
         }
 
@@ -52,6 +48,13 @@ function createWatchingData($input)
             ];
         }
     }
+
+    if (!empty($errors)) {
+        foreach ($errors as $error) {
+            echo $error . PHP_EOL;
+        }
+    }
+
     ksort($channelData);
 
     return $channelData;
