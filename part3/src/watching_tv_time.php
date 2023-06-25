@@ -1,10 +1,10 @@
 <?php
 
-const HOURS = 60;
-
 /* ここを修正
- * コマンド入力値の取得関数を追加
+ * 定数名を変更
  */
+const MINUTES_PER_HOUR = 60;
+
 function getInput()
 {
     $inputs = $_SERVER['argv'];
@@ -27,11 +27,6 @@ function validated($channel, $minutes)
 
     return $validated;
 }
-
-/* ここを修正
- * 引き数と戻り値にarrayを追加
- * コマンド入力値の取得をgetInput()へ移動
- */
 
 function createWatchingData(array $inputs): array
 {
@@ -73,10 +68,7 @@ function createWatchingData(array $inputs): array
     return $channelData;
 }
 
-/* ここを修正
- * 引き数にarrayを追加
- */
-function calWatchingHour(array $channelData)
+function calWatchingHour(array $channelData): void
 {
     $watchingMins = 0;
 
@@ -84,23 +76,17 @@ function calWatchingHour(array $channelData)
         $watchingMins += $data['minutes'];
     }
 
-    $watchingHours = round(($watchingMins / HOURS), 1);
+    $watchingHours = round(($watchingMins / MINUTES_PER_HOUR), 1);
     echo $watchingHours . PHP_EOL;
 }
 
-/* ここを修正
- * 引き数にarrayを追加
- */
-function outputWatchingData(array $channelData)
+function outputWatchingData(array $channelData): void
 {
     foreach ($channelData as $channel => $data) {
         echo $channel . ' ' . $data['minutes'] . ' ' . $data['count'] . PHP_EOL;
     }
 }
 
-/* ここを修正
- * getInput()関数を追加
- */
 $inputs = getInput();
 $channelData = createWatchingData($inputs);
 calWatchingHour($channelData);
