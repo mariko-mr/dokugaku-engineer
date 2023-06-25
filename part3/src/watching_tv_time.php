@@ -2,6 +2,17 @@
 
 const HOURS = 60;
 
+/* ここを修正
+ * コマンド入力値の取得関数を追加
+ */
+function getInput()
+{
+    $inputs = $_SERVER['argv'];
+    array_shift($inputs);
+
+    return $inputs;
+}
+
 function validated($channel, $minutes)
 {
     $validated = [];
@@ -17,16 +28,19 @@ function validated($channel, $minutes)
     return $validated;
 }
 
-function createWatchingData($input)
+/* ここを修正
+ * 引き数と戻り値にarrayを追加
+ * コマンド入力値の取得をgetInput()へ移動
+ */
+
+function createWatchingData(array $inputs): array
 {
-    // スクリプト名を削除する
-    array_shift($input);
     $channelData = [];
     $errors = [];
 
-    for ($i = 0; $i < count($input); $i += 2) {
-        $channel = (int)$input[$i];
-        $minutes = (int)$input[$i + 1];
+    for ($i = 0; $i < count($inputs); $i += 2) {
+        $channel = (int)$inputs[$i];
+        $minutes = (int)$inputs[$i + 1];
 
         $currentErrors = validated($channel, $minutes);
         // エラー文の重複を回避している
@@ -59,7 +73,10 @@ function createWatchingData($input)
     return $channelData;
 }
 
-function calWatchingHour($channelData)
+/* ここを修正
+ * 引き数にarrayを追加
+ */
+function calWatchingHour(array $channelData)
 {
     $watchingMins = 0;
 
@@ -71,17 +88,21 @@ function calWatchingHour($channelData)
     echo $watchingHours . PHP_EOL;
 }
 
-function outputWatchingData($channelData)
+/* ここを修正
+ * 引き数にarrayを追加
+ */
+function outputWatchingData(array $channelData)
 {
     foreach ($channelData as $channel => $data) {
         echo $channel . ' ' . $data['minutes'] . ' ' . $data['count'] . PHP_EOL;
     }
 }
 
-// コマンドラインの引き数から入力を取得
-$input = $argv;
-
-$channelData = createWatchingData($input);
+/* ここを修正
+ * getInput()関数を追加
+ */
+$inputs = getInput();
+$channelData = createWatchingData($inputs);
 calWatchingHour($channelData);
 outputWatchingData($channelData);
 
