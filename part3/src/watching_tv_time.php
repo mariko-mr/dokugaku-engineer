@@ -1,8 +1,5 @@
 <?php
 
-/* ここを修正
- * 定数名を変更
- */
 const MINUTES_PER_HOUR = 60;
 
 function getInput()
@@ -68,13 +65,12 @@ function createWatchingData(array $inputs): array
     return $channelData;
 }
 
+/* ここを修正
+ * 視聴時間の合計方法を修正
+ */
 function calWatchingHour(array $channelData): void
 {
-    $watchingMins = 0;
-
-    foreach ($channelData as $channel => $data) {
-        $watchingMins += $data['minutes'];
-    }
+    $watchingMins = array_sum(array_column($channelData,'minutes'));
 
     $watchingHours = round(($watchingMins / MINUTES_PER_HOUR), 1);
     echo $watchingHours . PHP_EOL;
