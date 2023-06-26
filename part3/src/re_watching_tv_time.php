@@ -31,6 +31,7 @@ function createViewingData(array $channelViewTimes): array
         $viewingData[$channel] = $togetherMinutes;
     }
 
+    ksort($viewingData);
     return $viewingData;
 }
 
