@@ -32,16 +32,19 @@ function createViewingRecords(array $inputs): array
     return $viewingRecords;
 }
 
-function calTotalViewingHours($viewingRecords)
+/* ここを修正
+ * 戻り値の指定にfloatを追加
+ */
+function calTotalViewingHours(array $viewingRecords): float
 {
     $totalViewingTimes = array_sum(array_merge(...$viewingRecords));
     return round(($totalViewingTimes / MINUTES_PER_HOUR), 1);
 }
 
 /* ここを修正
- * 結果の出力を追加
+ * 戻り値の指定にvoidを追加
  */
-function display(array $viewingRecords)
+function display(array $viewingRecords): void
 {
     $totalViewingHours = calTotalViewingHours($viewingRecords);
     echo $totalViewingHours . PHP_EOL; // 1.7
