@@ -1,6 +1,10 @@
 <?php
 
+/* ここを修正
+ * 定数MINUTES_PER_HOURの追加
+ */
 const SPLIT_BY_TWO = 2;
+const MINUTES_PER_HOUR = 60;
 
 function getInput()
 {
@@ -10,12 +14,9 @@ function getInput()
     return array_chunk($inputs, SPLIT_BY_TWO);
 }
 
-/* ここを修正
- * 変数名を変更
- */
 function createViewingData(array $inputs): array
 {
-    $viewingData = [];  // ['1' => [30, 15], '2' => [30], '5' => [25], $channel => $minutes[$togetherMinutes]]
+    $viewingData = [];  // [$channel => $togetherMinutes]
 
     foreach ($inputs as $input) {
 
@@ -24,7 +25,7 @@ function createViewingData(array $inputs): array
         $togetherMinutes = [$minutes];  // 視聴分数を格納する配列
 
         if (array_key_exists($channel, $viewingData)) {
-            $togetherMinutes = array_merge($viewingData[$channel], $togetherMinutes);
+            $togetherMinutes = [...$viewingData[$channel], ...$togetherMinutes];
         }
 
         // 視聴分数を更新
@@ -35,23 +36,28 @@ function createViewingData(array $inputs): array
     return $viewingData;
 }
 
-// 合計視聴時間を計算する
-function calTotalViewingTimes(){
+/* ここを修正
+ * 視聴時間の計算を追加
+ */
+function calTotalViewingHours($viewingData)
+{
+    $totalViewingTimes = array_sum(array_merge(...$viewingData));
+    $totalViewingHours = round(($totalViewingTimes/MINUTES_PER_HOUR), 1);
 
+    return $totalViewingHours;
 }
 
 // 結果を出力する
-function display(array $viewingData){
-
+function display(array $viewingData)
+{
+    $totalViewingHours = calTotalViewingHours($viewingData);
+    echo $totalViewingHours;
 }
 
-/* ここを修正
- * 変数名を変更
- */
+
 $inputs = getInput();
 $viewingData = createViewingData($inputs);
 display($viewingData);
-// print_r($viewingData);
 
 
 /* あとで消す
