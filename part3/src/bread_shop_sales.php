@@ -24,62 +24,66 @@ function getInput(): array
     return array_chunk($inputs, 2);
 }
 
-
-// 商品番号をキーとして価格と個数を格納する[1 => [100, 10],2 => [120, 3],...]
-function createBreadSalesRecords(array $inputs, $breadPrices): array
+// [商品番号、税込み価格、販売個数]を配列に格納する [[1, 110, 10], [2, 132, 3],...]
+function createBreadSalesRecords(array $inputs, array $breadPrices): array
 {
-    $BreadSalesRecords = [];
+    $breadSalesRecords = [];
 
     foreach ($inputs as $input) {
         $productId = $input[0];
         $breadSoldQuantity = (int)$input[1];
 
+        // 税込み価格の計算
         $includedTaxPrice = $breadPrices[$productId] * (1 + TAX_RATE);
 
-        $BreadSalesRecords[$productId] = ['priceWithTax' => $includedTaxPrice, 'quantity' => $breadSoldQuantity];
+        $breadSalesRecords[] = ['productId' => $productId, 'priceWithTax' => $includedTaxPrice, 'quantity' => $breadSoldQuantity];
     }
 
-    return $BreadSalesRecords;
+    return $breadSalesRecords;
 }
 
 // 一日の売上の合計（税込み）を計算する
-function calTotalSales(array $BreadSalesRecords): int
+function calTotalSales(array $breadSalesRecords): int
 {
     $totalSales = 0;
 
-    foreach ($BreadSalesRecords as $BreadSalesRecord) {
-        $totalSales += $BreadSalesRecord['priceWithTax'] * $BreadSalesRecord['quantity'];
+    foreach ($breadSalesRecords as $breadSalesRecord) {
+        $totalSales += $breadSalesRecord['priceWithTax'] * $breadSalesRecord['quantity'];
     }
 
     return floor($totalSales);
 }
 
-function getMaxQuantityId(array $BreadSalesRecords): array
+function getMaxQuantityId(array $breadSalesRecords): array
 {
-    $maxQuantity = 0;
+    $quantity = array_column($breadSalesRecords, 'quantity');
+    array_multisort($quantity, SORT_DESC, $breadSalesRecords);
+
+    $maxQuantity = $breadSalesRecords[0]['quantity'];
     $maxQuantityIds = [];
 
-    foreach ($BreadSalesRecords as $id => $BreadSalesRecord) {
-        // 販売個数が多ければ商品番号を更新
-        if ($BreadSalesRecord['quantity'] >= $maxQuantity) {
-            $maxQuantity = $BreadSalesRecord['quantity'];
-            $maxQuantityIds[] = $id;
+    foreach ($breadSalesRecords as $breadSalesRecord) {
+        // 販売個数が最も多い商品番号を配列に格納
+        if ($breadSalesRecord['quantity'] === $maxQuantity) {
+            $maxQuantityIds[] = $breadSalesRecord['productId'];
         }
     }
 
     return $maxQuantityIds;
 }
 
-function getMinQuantityId(array $BreadSalesRecords): array
+function getMinQuantityId(array $breadSalesRecords): array
 {
-    $minQuantity = PHP_INT_MAX;
+    $quantity = array_column($breadSalesRecords, 'quantity');
+    array_multisort($quantity, SORT_ASC, $breadSalesRecords);
+
+    $minQuantity = $breadSalesRecords[0]['quantity'];
     $minQuantityIds = [];
 
-    foreach ($BreadSalesRecords as $id => $BreadSalesRecord) {
-        // 販売個数が少なければ商品番号を更新
-        if ($BreadSalesRecord['quantity'] <= $minQuantity) {
-            $minQuantity = $BreadSalesRecord['quantity'];
-            $minQuantityIds[] = $id;
+    foreach ($breadSalesRecords as $breadSalesRecord) {
+        // 販売個数が最も少ない商品番号を配列に格納
+        if ($breadSalesRecord['quantity'] === $minQuantity) {
+            $minQuantityIds[] = $breadSalesRecord['productId'];
         }
     }
 
@@ -87,31 +91,30 @@ function getMinQuantityId(array $BreadSalesRecords): array
 }
 
 // アウトプットを出力する
-function display(array $BreadSalesRecords): void
+function display(array $breadSalesRecords): void
 {
-    $totalSales = calTotalSales($BreadSalesRecords); // 一日の売上の合計（税込み）
-    $maxQuantityIds = getMaxQuantityId($BreadSalesRecords); // 販売個数の最も多い商品番号を抽出する
-    $minQuantityIds = getMinQuantityId($BreadSalesRecords); // 販売個数の最も少ない商品番号を抽出する
+    $totalSales = calTotalSales($breadSalesRecords);        // 一日の売上の合計（税込み）
+    $maxQuantityIds = getMaxQuantityId($breadSalesRecords); // 販売個数の最も多い商品番号を抽出
+    $minQuantityIds = getMinQuantityId($breadSalesRecords); // 販売個数の最も少ない商品番号を抽出
 
     echo $totalSales . PHP_EOL;
 
     foreach ($maxQuantityIds as $maxQuantityId) {
-        echo $maxQuantityId . PHP_EOL;
+        echo $maxQuantityId . ' ';
     }
 
+    echo PHP_EOL;
+
     foreach ($minQuantityIds as $minQuantityId) {
-        echo $minQuantityId . PHP_EOL;
+        echo $minQuantityId . ' ';
     }
 }
 
 
 $inputs = getInput();
-// print_r($inputs);
+$breadSalesRecords = createBreadSalesRecords($inputs, $breadPrices);
 
-$BreadSalesRecords = createBreadSalesRecords($inputs, $breadPrices);
-// print_r($BreadSalesRecords);
-
-display($BreadSalesRecords);
+display($breadSalesRecords);
 
 
 
