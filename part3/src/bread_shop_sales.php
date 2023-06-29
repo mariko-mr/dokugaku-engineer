@@ -2,8 +2,11 @@
 
 const TAX_RATE = 0.1; // 消費税率10%
 
+/* ここを修正
+ * 変数だったのを定数に変更
+ */
 // 商品番号と金額を含む配列を作成する
-$breadPrices = [
+const BREAD_PRICES = [
     1 => 100,
     2 => 120,
     3 => 150,
@@ -24,8 +27,12 @@ function getInput(): array
     return array_chunk($inputs, 2);
 }
 
+/* ここを修正
+ * 定数BREAD_PRICESに変更
+ */
+
 // [商品番号、税込み価格、販売個数]を配列に格納する [[1, 110, 10], [2, 132, 3],...]
-function createBreadSalesRecords(array $inputs, array $breadPrices): array
+function createBreadSalesRecords(array $inputs): array
 {
     $breadSalesRecords = [];
 
@@ -34,7 +41,7 @@ function createBreadSalesRecords(array $inputs, array $breadPrices): array
         $breadSoldQuantity = (int)$input[1];
 
         // 税込み価格の計算
-        $includedTaxPrice = $breadPrices[$productId] * (1 + TAX_RATE);
+        $includedTaxPrice =  BREAD_PRICES[$productId] * (1 + TAX_RATE);
 
         $breadSalesRecords[] = ['productId' => $productId, 'priceWithTax' => $includedTaxPrice, 'quantity' => $breadSoldQuantity];
     }
@@ -54,9 +61,6 @@ function calTotalSales(array $breadSalesRecords): int
     return floor($totalSales);
 }
 
-/* ここを修正
- * 販売個数の最小最大を求める関数を作成
- */
 function getMinMaxQuantityId(array $breadSalesRecords, int $sortOrder): array
 {
     // 販売個数をもとに$breadSalesRecordsを並び替えする
@@ -76,10 +80,6 @@ function getMinMaxQuantityId(array $breadSalesRecords, int $sortOrder): array
     return $quantityIds;
 }
 
-
-/* ここを修正
- * getMinMaxQuantityId()に変更
- */
 // アウトプットを出力する
 function display(array $breadSalesRecords): void
 {
@@ -102,7 +102,11 @@ function display(array $breadSalesRecords): void
 
 
 $inputs = getInput();
-$breadSalesRecords = createBreadSalesRecords($inputs, $breadPrices);
+
+/* ここを修正
+ * 定数BREAD_PRICESに変更
+ */
+$breadSalesRecords = createBreadSalesRecords($inputs);
 
 display($breadSalesRecords);
 
