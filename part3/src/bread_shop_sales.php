@@ -54,48 +54,38 @@ function calTotalSales(array $breadSalesRecords): int
     return floor($totalSales);
 }
 
-function getMaxQuantityId(array $breadSalesRecords): array
+/* ここを修正
+ * 販売個数の最小最大を求める関数を作成
+ */
+function getMinMaxQuantityId(array $breadSalesRecords, int $sortOrder): array
 {
-    $quantity = array_column($breadSalesRecords, 'quantity');
-    array_multisort($quantity, SORT_DESC, $breadSalesRecords);
+    // 販売個数をもとに$breadSalesRecordsを並び替えする
+    $quantities = array_column($breadSalesRecords, 'quantity');
+    array_multisort($quantities, $sortOrder, $breadSalesRecords);
 
-    $maxQuantity = $breadSalesRecords[0]['quantity'];
-    $maxQuantityIds = [];
+    $quantity = $breadSalesRecords[0]['quantity'];
+    $quantityIds = [];
 
     foreach ($breadSalesRecords as $breadSalesRecord) {
-        // 販売個数が最も多い商品番号を配列に格納
-        if ($breadSalesRecord['quantity'] === $maxQuantity) {
-            $maxQuantityIds[] = $breadSalesRecord['productId'];
+        // 最小、もしくは最大の販売個数の商品番号を配列に格納
+        if ($breadSalesRecord['quantity'] === $quantity) {
+            $quantityIds[] = $breadSalesRecord['productId'];
         }
     }
 
-    return $maxQuantityIds;
+    return $quantityIds;
 }
 
-function getMinQuantityId(array $breadSalesRecords): array
-{
-    $quantity = array_column($breadSalesRecords, 'quantity');
-    array_multisort($quantity, SORT_ASC, $breadSalesRecords);
 
-    $minQuantity = $breadSalesRecords[0]['quantity'];
-    $minQuantityIds = [];
-
-    foreach ($breadSalesRecords as $breadSalesRecord) {
-        // 販売個数が最も少ない商品番号を配列に格納
-        if ($breadSalesRecord['quantity'] === $minQuantity) {
-            $minQuantityIds[] = $breadSalesRecord['productId'];
-        }
-    }
-
-    return $minQuantityIds;
-}
-
+/* ここを修正
+ * getMinMaxQuantityId()に変更
+ */
 // アウトプットを出力する
 function display(array $breadSalesRecords): void
 {
-    $totalSales = calTotalSales($breadSalesRecords);        // 一日の売上の合計（税込み）
-    $maxQuantityIds = getMaxQuantityId($breadSalesRecords); // 販売個数の最も多い商品番号を抽出
-    $minQuantityIds = getMinQuantityId($breadSalesRecords); // 販売個数の最も少ない商品番号を抽出
+    $totalSales = calTotalSales($breadSalesRecords);                      // 一日の売上の合計（税込み）
+    $maxQuantityIds = getMinMaxQuantityId($breadSalesRecords, SORT_DESC); // 販売個数の最も多い商品番号を抽出
+    $minQuantityIds = getMinMaxQuantityId($breadSalesRecords, SORT_ASC);  // 販売個数の最も少ない商品番号を抽出
 
     echo $totalSales . PHP_EOL;
 
