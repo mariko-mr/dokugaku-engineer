@@ -64,8 +64,11 @@ function getMinSalesQuantityIds(array $breadSalesRecords): array
     return array_keys($breadSalesRecords, $minSalesQuantity);
 }
 
+/* ここを修正
+ * 戻り値の型を追加
+ */
 // 結果を出力する
-function display(array ...$results)
+function display(array ...$results): void
 {
     foreach ($results as $result) {
         echo implode(" ", $result) . PHP_EOL;
