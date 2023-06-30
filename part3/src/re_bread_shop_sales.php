@@ -1,5 +1,7 @@
 <?php
-const TAX_LATE = 0.1;     // 消費税率10%
+
+const SPLIT_LENGTH_TWO = 2;
+const TAX_RATE = 0.1;     // 消費税率10%
 const BREAD_PRICES = [    // 商品番号 => 金額(税抜)
     1 => 100,
     2 => 120,
@@ -14,33 +16,70 @@ const BREAD_PRICES = [    // 商品番号 => 金額(税抜)
 ];
 
 // コマンドライン引数を扱いやすく処理する
-function getInput(){
-
+function getInput(): array
+{
+    $inputs = array_slice($_SERVER['argv'], 1);
+    return array_chunk($inputs, SPLIT_LENGTH_TWO);
 }
 
-// 商品番号 => 販売個数[[1 => 10], ...]となる配列をつくる
-function createBreadSalesRecords($inputs){
+// 商品番号 => 販売個数となる配列をつくる [[1 => 10], ...]
+function createBreadSalesRecords(array $inputs): array
+{
+    $breadSalesRecords = [];
 
+    foreach ($inputs as $input) {
+        $productId = $input[0];
+        $salesQuantity = $input[1];
+
+        $breadSalesRecords[$productId] = $salesQuantity;
+    }
+
+    return $breadSalesRecords;
 }
 
 // 一日の売上の合計（税込）を計算する
-function calTotalSales(){
+function calTotalSales(array $breadSalesRecords): int
+{
+    $totalSales = 0;
 
+    foreach ($breadSalesRecords as $productId => $salesQuantity) {
+        $includedTaxPrice = floor(BREAD_PRICES[$productId] * (1 + TAX_RATE));
+        $totalSales += $includedTaxPrice * $salesQuantity;
+    }
+
+    return $totalSales;
 }
 
 // 販売個数の最も多い商品番号を配列にいれる
-
-// 販売個数の最も少ない商品番号を配列にいれる
-
-// 結果を出力する
-function display(...$result){
-
+function getMaxSalesQuantityIds(array $breadSalesRecords): array
+{
+    $maxSalesQuantity = max(array_values($breadSalesRecords));
+    return array_keys($breadSalesRecords, $maxSalesQuantity);
 }
 
+// 販売個数の最も少ない商品番号を配列にいれる
+function getMinSalesQuantityIds(array $breadSalesRecords): array
+{
+    $minSalesQuantity = min(array_values($breadSalesRecords));
+    return array_keys($breadSalesRecords, $minSalesQuantity);
+}
+
+// 結果を出力する
+function display(array ...$results)
+{
+    foreach ($results as $result) {
+        echo implode(" ", $result) . PHP_EOL;
+    }
+}
 
 $inputs = getInput();
 $breadSalesRecords = createBreadSalesRecords($inputs);
-// display($total, $max, $min);
+
+$totalSales = calTotalSales($breadSalesRecords);
+$maxSalesQuantityIds = getMaxSalesQuantityIds($breadSalesRecords);
+$minSalesQuantityIds = getMinSalesQuantityIds($breadSalesRecords);
+
+display([$totalSales], $maxSalesQuantityIds, $minSalesQuantityIds);
 
 
 
@@ -61,5 +100,5 @@ $breadSalesRecords = createBreadSalesRecords($inputs);
 販売個数が同数の商品が存在する場合、それら全ての商品番号を記載すること。
 
 実行コマンド例
-docker compose exec app php bread_shop_sales.php 1 10 2 3 5 1 7 5 10 1
+docker compose exec app php re_bread_shop_sales.php 1 10 2 3 5 1 7 5 10 1
 */
