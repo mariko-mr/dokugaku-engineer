@@ -3,7 +3,11 @@
 const SPLIT_BY_TWO = 2;
 const MINUTES_PER_HOUR = 60;
 
-function getInput(array $argv)
+/**
+ * @param array<int, string | int> $argv
+ * @return array<array<int,int>>
+ */
+function getInput(array $argv): array
 {
     $inputs = array_slice($argv, 1);
 
@@ -11,6 +15,10 @@ function getInput(array $argv)
     return array_chunk($inputs, SPLIT_BY_TWO);
 }
 
+/**
+ * @param array<array<int,int>> $inputs
+ * @return array<array<int,int>>
+ */
 function createViewingRecords(array $inputs): array
 {
     $viewingRecords = [];  // [$channel => $togetherMinutes]
@@ -32,13 +40,18 @@ function createViewingRecords(array $inputs): array
     return $viewingRecords;
 }
 
-
+/**
+ * @param array<array<int,int>> $viewingRecords
+ */
 function calTotalViewingHours(array $viewingRecords): float
 {
     $totalViewingTimes = array_sum(array_merge(...$viewingRecords));
     return round(($totalViewingTimes / MINUTES_PER_HOUR), 1);
 }
 
+/**
+ * @param array<array<int,int>> $viewingRecords
+ */
 function display(array $viewingRecords): void
 {
     $totalViewingHours = calTotalViewingHours($viewingRecords);
