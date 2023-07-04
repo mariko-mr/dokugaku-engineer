@@ -22,24 +22,30 @@ const PRICES = [           // 商品番号 => []
     10 => ['price' => 100, 'type' => 'drink']    // コーヒー
 ];
 
+/**
+ * @param array<int, string | int> $productIds
+ */
 function calc(string $purchaseTime, array $productIds): int
 {
-    $taxIncludedPay = 0;
+    $pay = 0;
 
     // 価格に税を含めたものを順番に足していく
     foreach ($productIds as $productId) {
-        $taxIncludedPay += PRICES[$productId]['price'];
+        $pay += PRICES[$productId]['price'];
     }
 
     // ディスカウントする
-    $taxIncludedPay -= discountOnion($productIds);
-    $taxIncludedPay -= discountSet($productIds);
-    $taxIncludedPay -= discountLunchBox($purchaseTime, $productIds);
+    $pay -= discountOnion($productIds);
+    $pay -= discountSet($productIds);
+    $pay -= discountLunchBox($purchaseTime, $productIds);
 
     // ここで税込み計算をする
-    return floor($taxIncludedPay * (1 + TAX_RATE));
+    return (int)($pay * (1 + TAX_RATE));
 }
 
+/**
+ * @param array<int, string | int> $productIds
+ */
 function discountOnion(array $productIds): int
 {
     $count = array_count_values($productIds);
@@ -55,6 +61,9 @@ function discountOnion(array $productIds): int
     return $discountOnion;
 }
 
+/**
+ * @param array<int, string | int> $productIds
+ */
 // 弁当と飲み物を一緒に買うと20円引き（ただし適用は一組ずつ）
 function discountSet(array $productIds): int
 {
@@ -72,6 +81,9 @@ function discountSet(array $productIds): int
     return $discountSet;
 }
 
+/**
+ * @param array<int, string | int> $productIds
+ */
 // お弁当は20〜23時はタイムセールで半額
 function discountLunchBox(string $purchaseTime, array $productIds): int
 {
@@ -87,5 +99,3 @@ function discountLunchBox(string $purchaseTime, array $productIds): int
 
     return $discountLunchBox;
 }
-
-calc('21:00', [1, 1, 1, 3, 5, 7, 8, 9, 10]);
