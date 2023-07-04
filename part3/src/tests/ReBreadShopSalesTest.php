@@ -12,6 +12,7 @@ final class ReBreadShopSalesTest
         2464
         1
         5 10
+
         EOD;
 
         $this->expectOutputString($output);
@@ -23,6 +24,6 @@ final class ReBreadShopSalesTest
         $maxSalesQuantityIds = getMaxSalesQuantityIds($breadSalesRecords);
         $minSalesQuantityIds = getMinSalesQuantityIds($breadSalesRecords);
 
-        display([$totalSales], $maxSalesQuantityIds, $minSalesQuantityIds);
+        displaySales([$totalSales], $maxSalesQuantityIds, $minSalesQuantityIds);
     }
 }
