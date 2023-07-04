@@ -1,7 +1,7 @@
 <?php
 
 const SPLIT_LENGTH_TWO = 2;
-const TAX_RATE = 0.1;     // 消費税率10%
+const TAX = 0.1;     // 消費税率10%
 const BREAD_PRICES = [    // 商品番号 => 金額(税抜)
     1 => 100,
     2 => 120,
@@ -53,7 +53,7 @@ function calTotalSales(array $breadSalesRecords): int
     $totalSales = 0;
 
     foreach ($breadSalesRecords as $productId => $salesQuantity) {
-        $includedTaxPrice = floor(BREAD_PRICES[$productId] * (1 + TAX_RATE));
+        $includedTaxPrice = floor(BREAD_PRICES[$productId] * (1 + TAX));
         $totalSales += $includedTaxPrice * $salesQuantity;
     }
 
@@ -85,7 +85,7 @@ function getMinSalesQuantityIds(array $breadSalesRecords): array
     if(empty($breadSalesRecords)){ // テスト実行時にエラー防止。入力が空でも動作するよう処理を追加
         return[];
     }
-    
+
     $minSalesQuantity = min(array_values($breadSalesRecords));
     return array_keys($breadSalesRecords, $minSalesQuantity);
 }
@@ -94,7 +94,7 @@ function getMinSalesQuantityIds(array $breadSalesRecords): array
  * @param array<int> $results
  */
 // 結果を出力する
-function display(array ...$results): void
+function displaySales(array ...$results): void
 {
     foreach ($results as $result) {
         echo implode(" ", $result) . PHP_EOL;
@@ -108,7 +108,7 @@ $totalSales = calTotalSales($breadSalesRecords);
 $maxSalesQuantityIds = getMaxSalesQuantityIds($breadSalesRecords);
 $minSalesQuantityIds = getMinSalesQuantityIds($breadSalesRecords);
 
-display([$totalSales], $maxSalesQuantityIds, $minSalesQuantityIds);
+displaySales([$totalSales], $maxSalesQuantityIds, $minSalesQuantityIds);
 
 
 
