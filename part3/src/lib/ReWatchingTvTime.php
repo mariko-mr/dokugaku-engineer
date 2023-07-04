@@ -7,7 +7,7 @@ const MINUTES_PER_HOUR = 60;
  * @param array<int, string | int> $argv
  * @return array<array<int,int>>
  */
-function getInput(array $argv): array
+function getInputs(array $argv): array
 {
     $inputs = array_slice($argv, 1);
 
@@ -63,6 +63,6 @@ function display(array $viewingRecords): void
 }
 
 
-$inputs = getInput($_SERVER['argv']);
+$inputs = getInputs($_SERVER['argv']);
 $viewingRecords = createViewingRecords($inputs);
 display($viewingRecords);

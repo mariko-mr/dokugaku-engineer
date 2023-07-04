@@ -16,7 +16,7 @@ final class ReWatchingTvTimeTest extends TestCase
         EOD;
         $this->expectOutputString($output);
 
-        $inputs = getInput(['file', '1', '30', '5', '25', '2', '30', '1', '15']);
+        $inputs = getInputs(['file', '1', '30', '5', '25', '2', '30', '1', '15']);
         $viewingRecords = createViewingRecords($inputs);
         display($viewingRecords);
     }
