@@ -20,6 +20,9 @@ const ITEMS = [
     10 => ['price' => 100, 'type' => 'drink'], // コーヒー
 ];
 
+/**
+ * @param array<string, int> $items
+ */
 function reCalc(string $time, array $items): int
 {
     $total = 0;
@@ -34,6 +37,9 @@ function reCalc(string $time, array $items): int
     return calTaxInPrice($total);
 }
 
+/**
+ * @param array<string, int> $items
+ */
 function getCount(array $items, string $type): int
 {
     $count = 0;
@@ -46,6 +52,9 @@ function getCount(array $items, string $type): int
     return $count;
 }
 
+/**
+ * @param array<string, int> $items
+ */
 function dcOnion(array $items): int
 {
     $onion = getCount($items, 'onion');
@@ -60,6 +69,9 @@ function dcOnion(array $items): int
     return $dcOnion;
 }
 
+/**
+ * @param array<string, int> $items
+ */
 function dcSet(array $items): int
 {
     $bento = getCount($items, 'bento');
@@ -72,6 +84,9 @@ function dcSet(array $items): int
     return $dcSet;
 }
 
+/**
+ * @param array<string, int> $items
+ */
 function dcTimeSale(string $time, array $items): int
 {
     $startTime = date('20:00');
@@ -90,6 +105,9 @@ function dcTimeSale(string $time, array $items): int
     return $dcTimeSale;
 }
 
+/**
+ * @param array<string, int> $items
+ */
 function totalDc(string $time, array $items): int
 {
     //ディスカウントをまとめる
