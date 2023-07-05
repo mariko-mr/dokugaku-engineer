@@ -22,9 +22,6 @@ const PRICES = [           // 商品番号 => []
     10 => ['price' => 100, 'type' => 'drink']    // コーヒー
 ];
 
-/* ここを修正
- * $countの定義をcalc()へ移動
- */
 /**
  * @param array<int, string | int> $productIds
  */
@@ -47,9 +44,6 @@ function calc(string $purchaseTime, array $productIds): int
     return (int)($pay * (1 + TAX_RATE));
 }
 
-/* ここを修正
- * $countの定義をcalc()へ移動
- */
 /**
  * @param array<int, string | int> $count
  */
@@ -67,9 +61,6 @@ function discountOnion(array $count): int
     return $discountOnion;
 }
 
-/* ここを修正
- * $countの定義をcalc()へ移動
- */
 /**
  * @param array<int, string | int> $count
  */
@@ -90,7 +81,7 @@ function discountSet(array $count): int
 }
 
 /* ここを修正
- * 23:59に変更
+ * ifの中をブール関数に置き換え
  */
 /**
  * @param array<int, string | int> $productIds
@@ -100,7 +91,7 @@ function discountLunchBox(string $purchaseTime, array $productIds): int
 {
     $discountLunchBox = 0;
 
-    if (date('20:00') <= $purchaseTime || $purchaseTime >= date('23:59')) {
+    if (isDiscountTime($purchaseTime)) {
         foreach ($productIds as $productId) {
             if (PRICES[$productId]['type'] === 'lunchBox') {
                 $discountLunchBox += PRICES[$productId]['price'] * HALF_PRICE;
@@ -109,4 +100,16 @@ function discountLunchBox(string $purchaseTime, array $productIds): int
     }
 
     return $discountLunchBox;
+}
+
+/* ここを修正
+ * ヘルパー関数を追加
+ */
+function isDiscountTime(string $purchaseTime): bool
+{
+    $startTime = date('20:00');
+    $endTime = date('23:59');
+    $purchaseTime = date($purchaseTime);
+
+    return $startTime <= $purchaseTime && $purchaseTime <= $endTime;
 }
