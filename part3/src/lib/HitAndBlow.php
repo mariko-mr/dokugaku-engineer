@@ -1,8 +1,10 @@
 <?php
 
 /* ここを修正
- * str_split()で$numbersをstringに変換
+ * 桁数を定数とする
  */
+const DIGITS = 4;
+
 /**
  * @return array<int,string>
  */
@@ -12,6 +14,9 @@ function getArray(int $numbers): array
     return str_split((string)$numbers);
 }
 
+/* ここを修正
+ * ループ条件の数値をを定数へ変更
+ */
 /**
  * @return array<int,int>
  */
@@ -23,7 +28,7 @@ function judge(int $correctNumbers, int $userAnswers): array
     $hit = 0;
     $blow = 0;
 
-    for ($i = 0; $i < 4; $i++) {
+    for ($i = 0; $i < DIGITS; $i++) {
         if ($userAnswers[$i] === $correctNumbers[$i]) {
             // $userAnswersのi番目が$correctNumbersのi番目と同じなら$hit
             $hit++;
