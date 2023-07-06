@@ -16,7 +16,7 @@ const BREAD_PRICES = [    // 商品番号 => 金額(税抜)
 ];
 
 /**
- * @param array<int, string | int> $argv
+ * @param array<int, string|int> $argv
  * @return array<array<int,int>>
  */
 function getInput(array $argv): array
@@ -27,7 +27,7 @@ function getInput(array $argv): array
 
 /**
  * @param array<array<int,int>> $inputs
- * @return array<array<int,int>>
+ * @return array<int,int>
  */
 // 商品番号 => 販売個数となる配列をつくる [[1 => 10], ...]
 function createBreadSalesRecords(array $inputs): array
@@ -45,7 +45,7 @@ function createBreadSalesRecords(array $inputs): array
 }
 
 /**
- * @param array<int> $breadSalesRecords
+ * @param array<int, int> $breadSalesRecords
  */
 // 一日の売上の合計（税込）を計算する
 function calTotalSales(array $breadSalesRecords): int
@@ -61,14 +61,14 @@ function calTotalSales(array $breadSalesRecords): int
 }
 
 /**
- * @param array<array<int,int>> $breadSalesRecords
+ * @param array<int,int> $breadSalesRecords
  * @return array<int>
  */
 // 販売個数の最も多い商品番号を配列にいれる
 function getMaxSalesQuantityIds(array $breadSalesRecords): array
 {
-    if(empty($breadSalesRecords)){ // テスト実行時にエラー防止。入力が空でも動作するよう処理を追加
-        return[];
+    if (empty($breadSalesRecords)) { // テスト実行時にエラー防止。入力が空でも動作するよう処理を追加
+        return [];
     }
 
     $maxSalesQuantity = max(array_values($breadSalesRecords));
@@ -76,14 +76,14 @@ function getMaxSalesQuantityIds(array $breadSalesRecords): array
 }
 
 /**
- * @param array<array<int,int>> $breadSalesRecords
+ * @param array<int,int> $breadSalesRecords
  * @return array<int>
  */
 // 販売個数の最も少ない商品番号を配列にいれる
 function getMinSalesQuantityIds(array $breadSalesRecords): array
 {
-    if(empty($breadSalesRecords)){ // テスト実行時にエラー防止。入力が空でも動作するよう処理を追加
-        return[];
+    if (empty($breadSalesRecords)) { // テスト実行時にエラー防止。入力が空でも動作するよう処理を追加
+        return [];
     }
 
     $minSalesQuantity = min(array_values($breadSalesRecords));
