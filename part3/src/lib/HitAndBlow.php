@@ -1,8 +1,5 @@
 <?php
 
-/* ここを修正
- * 桁数を定数とする
- */
 const DIGITS = 4;
 
 /**
@@ -15,30 +12,45 @@ function getArray(int $numbers): array
 }
 
 /* ここを修正
- * ループ条件の数値をを定数へ変更
+ *  if文をブール関数に置き換え
+ *  変数名の変更
  */
 /**
  * @return array<int,int>
  */
-function judge(int $correctNumbers, int $userAnswers): array
+function judge(int $correctNum, int $userAnswer): array
 {
-    $correctNumbers = getArray($correctNumbers);
-    $userAnswers = getArray($userAnswers);
+    $correct = getArray($correctNum);
+    $answer = getArray($userAnswer);
 
     $hit = 0;
     $blow = 0;
 
     for ($i = 0; $i < DIGITS; $i++) {
-        if ($userAnswers[$i] === $correctNumbers[$i]) {
-            // $userAnswersのi番目が$correctNumbersのi番目と同じなら$hit
+        if (isHit($correct, $answer, $i)) {
             $hit++;
-        } elseif (in_array($userAnswers[$i], $correctNumbers, true)) {
-            // $userAnswersのi番目が$correctNumbersに含まれるなら$blow
+        } elseif (isBlow($correct, $answer, $i)) {
             $blow++;
         }
     }
 
     return [$hit, $blow];
+}
+
+/* ここを追加
+ *  isHit()を作成
+ */
+function isHit(array $correct, array $answer, int $digit): bool
+{
+    return $answer[$digit] === $correct[$digit];
+}
+
+/* ここを追加
+ *  isBlow()を作成
+ */
+function isBlow(array $correct, array $answer, int $digit): bool
+{
+    return in_array($answer[$digit], $correct, true);
 }
 
 /*
