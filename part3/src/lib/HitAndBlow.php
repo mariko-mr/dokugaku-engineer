@@ -37,7 +37,8 @@ function judge(int $correctNum, int $userAnswer): array
  * 配列の型を宣言
  */
 /**
- * @param array<int,int> $correct, $answer
+ * @param array<int,string> $correct
+ * @param array<int,string> $answer
  */
 function isHit(array $correct, array $answer, int $digit): bool
 {
@@ -48,7 +49,8 @@ function isHit(array $correct, array $answer, int $digit): bool
  * 配列の型を宣言
  */
 /**
- * @param array<int,int> $correct, $answer
+ * @param array<int,string> $correct
+ * @param array<int,string> $answer
  */
 function isBlow(array $correct, array $answer, int $digit): bool
 {
