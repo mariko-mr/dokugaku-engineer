@@ -4,5 +4,11 @@ parameters:
 		- .
 	excludePaths:
 		- vendor
+		- tests
+		- model_answer
+		- bread_shop_sales.php
+		- watching_tv_time.php
+		- re_bread_shop_sales.php
+		- re_watching_tv_time.php
 	fileExtensions:
 		- php
