@@ -33,6 +33,9 @@ function showDown(string $p1Card1, string $p1Card2, string $p2Card1, string $p2C
     return [$p1Hand, $p2Hand, $winner]; // p1の役、p2の役、勝利者の番号
 }
 
+/* ここを修正
+ * 不要なコードを削除
+ */
 /**
  * @param array<int,string> $cards
  * @return array<int,int>
@@ -45,12 +48,6 @@ function getCards(array $cards): array // 'CK', 'DJ' → [11, 13]
         //定数CARDSからキー'CK'の要素｢13｣を取得
         $numbers[] = CARDS[$card];
     }
-
-    // // ただしキングとエースの場合は[13, 1]とする // TODO: 「エースが含まれる場合は」に直す
-    // if (isKingAndAce($numbers)) {
-    //     rsort($numbers, SORT_NUMERIC);
-    //     return $numbers;
-    // }
 
     // 数字順に並び替える
     sort($numbers, SORT_NUMERIC);
