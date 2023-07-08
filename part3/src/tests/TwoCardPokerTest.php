@@ -22,5 +22,7 @@ final class TwoCardPokerTest extends TestCase
         $this->assertSame(['straight', 'straight', 1],   showDown('SA', 'DK', 'C2', 'CA'));
         $this->assertSame(['straight', 'straight', 2],   showDown('C2', 'CA', 'S2', 'D3'));
         $this->assertSame(['straight', 'straight', 0],   showDown('S2', 'D3', 'C2', 'H3'));
+        $this->assertSame(['pair', 'pair', 0],           showDown('SA', 'DA', 'CA', 'HA'));
+        $this->assertSame(['high card', 'high card', 1], showDown('SA', 'D3', 'C2', 'H4'));
     }
 }
