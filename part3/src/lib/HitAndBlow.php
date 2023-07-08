@@ -11,10 +11,6 @@ function getArray(int $numbers): array
     return str_split((string)$numbers);
 }
 
-/* ここを修正
- *  if文をブール関数に置き換え
- *  変数名の変更
- */
 /**
  * @return array<int,int>
  */
@@ -37,16 +33,22 @@ function judge(int $correctNum, int $userAnswer): array
     return [$hit, $blow];
 }
 
-/* ここを追加
- *  isHit()を作成
+/* ここを修正
+ * 配列の型を宣言
+ */
+/**
+ * @param array<int,int> $correct, $answer
  */
 function isHit(array $correct, array $answer, int $digit): bool
 {
     return $answer[$digit] === $correct[$digit];
 }
 
-/* ここを追加
- *  isBlow()を作成
+/* ここを修正
+ * 配列の型を宣言
+ */
+/**
+ * @param array<int,int> $correct, $answer
  */
 function isBlow(array $correct, array $answer, int $digit): bool
 {
