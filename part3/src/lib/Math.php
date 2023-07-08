@@ -1,6 +1,6 @@
 <?php
 
-function double($num)
+function double(int $num): int
 {
     return $num * 2;
 }

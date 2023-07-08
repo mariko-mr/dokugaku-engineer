@@ -21,7 +21,7 @@ const ITEMS = [
 ];
 
 /**
- * @param array<string, int> $items
+ * @param array<int, int> $items
  */
 function reCalc(string $time, array $items): int
 {
