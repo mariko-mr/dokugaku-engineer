@@ -39,9 +39,9 @@ function getCards(array $cards): array // 'CK', 'DJ' → [11, 13]
         $numbers[] = CARDS[$card];
     }
 
-    // TODO: 「エースが含まれる場合は」に直す
+
     // 強い数字順に並び替える
-    // ただしキングとエースの場合は[13, 1]とする
+    // ただしキングとエースの場合は[13, 1]とする // TODO: 「エースが含まれる場合は」に直す
     if (isKingAndAce($numbers)) {
         rsort($numbers, SORT_NUMERIC);
         return $numbers;
@@ -90,11 +90,16 @@ function isKingAndAce(array $numbers): bool
     return in_array(13, $numbers, true) && in_array(1, $numbers, true);
 }
 
+/* ここを修正
+ * $p1Rank, $p2Rankを定義
+ */
 function judgeWinner(array $p1CardNumbers, array $p2CardNumbers, string $p1Hand, string $p2Hand): int
 {
     $handOrder = [0 => 'high card', 1 => 'pair', 2 => 'straight'];
 
     // 役の順位を取得
+    $p1Rank = [];
+    $p2Rank = [];
     $p1Rank['rank'] = array_search($p1Hand, $handOrder); // 0
     $p2Rank['rank'] = array_search($p2Hand, $handOrder); // 1
 
@@ -124,11 +129,18 @@ function judgeWinner(array $p1CardNumbers, array $p2CardNumbers, string $p1Hand,
     }
 }
 
-/* ここを追加
- *
+/* ここを修正
+ * 引き数から$p1Rank, $p2Rankを削除
  */
-function compareHighCardHands($p1Rank, $p2Rank, $p1CardNumbers, $p2CardNumbers): int
+function compareHighCardHands($p1CardNumbers, $p2CardNumbers): int
 {
+    // 例外を先に処理。1 をもっていれば勝ち
+    if (in_array(1, $p1CardNumbers, true)) {
+        return PLAYER1;
+    } elseif (in_array(1, $p2CardNumbers, true)) {
+        return PLAYER2;
+    }
+
     // 一番目に強い数字が同じ場合、二番目に強い数字で勝負
     if ($p1CardNumbers[1] === $p2CardNumbers[1]) {
         return isStronger($p1CardNumbers, $p2CardNumbers, 0);
@@ -138,10 +150,10 @@ function compareHighCardHands($p1Rank, $p2Rank, $p1CardNumbers, $p2CardNumbers):
     return isStronger($p1CardNumbers, $p2CardNumbers, 1);
 }
 
-/* ここを追加
- *
+/* ここを修正
+ * 引き数から$p1Rank, $p2Rankを削除
  */
-function comparePairHands($p1Rank, $p2Rank, $p1CardNumbers, $p2CardNumbers): int
+function comparePairHands($p1CardNumbers, $p2CardNumbers): int
 {
     // 例外を先に処理。1 を持っているプレイヤーが勝ち。
     if (in_array(1, $p1CardNumbers, true)) {
@@ -154,12 +166,11 @@ function comparePairHands($p1Rank, $p2Rank, $p1CardNumbers, $p2CardNumbers): int
     return isStronger($p1CardNumbers, $p2CardNumbers, 1);
 }
 
-/* ここを追加
- *
+/* ここを修正
+ * 引き数から$p1Rank, $p2Rankを削除
  */
-function compareStraightHands($p1Rank, $p2Rank, $p1CardNumbers, $p2CardNumbers): int
+function compareStraightHands($p1CardNumbers, $p2CardNumbers): int
 {
-
     // 例外を先に処理。K-A が最強。
     if (isKingAndAce($p1CardNumbers)) {
         return PLAYER1;
@@ -171,11 +182,6 @@ function compareStraightHands($p1Rank, $p2Rank, $p1CardNumbers, $p2CardNumbers):
     return isStronger($p1CardNumbers, $p2CardNumbers, 1);
 }
 
-
-/* ここを修正
- * 関数名の変更
- * 引き数を$num→$keyに変更
- */
 function isStronger(array $p1, array $p2, int|string $key): int
 {
     //TODO: A ならば勝ちを最初に作る
