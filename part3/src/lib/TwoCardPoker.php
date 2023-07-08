@@ -90,9 +90,6 @@ function isKingAndAce(array $numbers): bool
     return in_array(13, $numbers, true) && in_array(1, $numbers, true);
 }
 
-/* ここを修正
- * $p1Rank, $p2Rankを定義
- */
 function judgeWinner(array $p1CardNumbers, array $p2CardNumbers, string $p1Hand, string $p2Hand): int
 {
     $handOrder = [0 => 'high card', 1 => 'pair', 2 => 'straight'];
@@ -129,9 +126,6 @@ function judgeWinner(array $p1CardNumbers, array $p2CardNumbers, string $p1Hand,
     }
 }
 
-/* ここを修正
- * 引き数から$p1Rank, $p2Rankを削除
- */
 function compareHighCardHands($p1CardNumbers, $p2CardNumbers): int
 {
     // 例外を先に処理。1 をもっていれば勝ち
@@ -150,9 +144,6 @@ function compareHighCardHands($p1CardNumbers, $p2CardNumbers): int
     return isStronger($p1CardNumbers, $p2CardNumbers, 1);
 }
 
-/* ここを修正
- * 引き数から$p1Rank, $p2Rankを削除
- */
 function comparePairHands($p1CardNumbers, $p2CardNumbers): int
 {
     // 例外を先に処理。1 を持っているプレイヤーが勝ち。
@@ -166,9 +157,6 @@ function comparePairHands($p1CardNumbers, $p2CardNumbers): int
     return isStronger($p1CardNumbers, $p2CardNumbers, 1);
 }
 
-/* ここを修正
- * 引き数から$p1Rank, $p2Rankを削除
- */
 function compareStraightHands($p1CardNumbers, $p2CardNumbers): int
 {
     // 例外を先に処理。K-A が最強。
@@ -182,12 +170,15 @@ function compareStraightHands($p1CardNumbers, $p2CardNumbers): int
     return isStronger($p1CardNumbers, $p2CardNumbers, 1);
 }
 
-function isStronger(array $p1, array $p2, int|string $key): int
+/* ここを修正
+ * 変数名を変更$p → $player
+ */
+function isStronger(array $player1, array $player2, int|string $key): int
 {
     //TODO: A ならば勝ちを最初に作る
-    if ($p1[$key] > $p2[$key]) {
+    if ($player1[$key] > $player2[$key]) {
         return PLAYER1;
-    } elseif ($p1[$key] < $p2[$key]) {
+    } elseif ($player1[$key] < $player2[$key]) {
         return PLAYER2;
     }
 }
