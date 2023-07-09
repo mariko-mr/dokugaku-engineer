@@ -87,7 +87,7 @@ function isPair(array $numbers): bool
 function isStraight(array $numbers): bool
 {
     // 数字が連続している場合はストレート
-    // ただしキングとエースの場合[13, 1]もストレート
+    // ただしキングとエースの場合[1, 13]もストレート
     if ($numbers[0] + 1 === $numbers[1]) {
         return true;
     } elseif (isKingAndAce($numbers)) {
