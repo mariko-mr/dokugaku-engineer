@@ -50,9 +50,6 @@ function getCards(array $cards): array // 'CK', 'DJ', 'H9' → [9, 11, 13]
     return $numbers;
 }
 
-/* ここを追加
- * ツリーカードの判定関数を追加
- */
 /**
  * @param array<int,int> $numbers
  */
@@ -75,9 +72,6 @@ function getHand(array $numbers): string // [9, 11, 13] → 'high card'
     return $hand;
 }
 
-/* ここを追加
- * スリーカードの判定関数を作成
- */
 /**
  * @param array<int,int> $numbers
  */
@@ -94,28 +88,42 @@ function isPair(array $numbers): bool
     return count(array_unique($numbers)) === 2;
 }
 
+/* ここを修正
+ * 判定方法を変更
+ */
 /**
  * @param array<int,int> $numbers
  */
 function isStraight(array $numbers): bool
 {
     // 数字が連続している場合はストレート
-    // ただしキングとエースの場合[1, 13]もストレート
-    if ($numbers[0] + 1 === $numbers[1]) {
+    $min = min($numbers);
+    $max = max($numbers);
+    $range = range($min, $max, 1);
+
+    if ($numbers === $range) {
         return true;
-    } elseif (isKingAndAce($numbers)) {
+    }
+
+    // ただし, [1, 12, 13]もストレート
+    if (isQKA($numbers)) {
         return true;
     }
 
     return false;
 }
 
+/* ここを修正
+ * 関数名をqka()に変更
+ * 判定方法を変更
+ */
 /**
  * @param array<int,int> $numbers
  */
-function isKingAndAce(array $numbers): bool
+function isQKA(array $numbers): bool
 {
-    return in_array(13, $numbers, true) && in_array(1, $numbers, true);
+    $qka=[1, 12 ,13];
+    return $numbers === $qka;
 }
 
 /**
@@ -204,9 +212,9 @@ function comparePairHands(array $p1CardNumbers, array $p2CardNumbers): int
 function compareStraightHands(array $p1CardNumbers, array $p2CardNumbers): int
 {
     // 例外を先に処理。[1, 13] が最強。
-    if (isKingAndAce($p1CardNumbers)) {
+    if (isQKA($p1CardNumbers)) {
         return PLAYER1;
-    } elseif (isKingAndAce($p2CardNumbers)) {
+    } elseif (isQKA($p2CardNumbers)) {
         return PLAYER2;
     }
 
