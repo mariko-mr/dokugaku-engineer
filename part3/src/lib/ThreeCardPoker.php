@@ -14,11 +14,10 @@ const CARDS = [
     'C7' => 7, 'C8' => 8, 'C9' => 9, 'C10' => 10, 'CJ' => 11, 'CQ' => 12, 'CK' => 13
 ];
 
-#引き数を増やす
 /**
  * @return array<int,string|int>
  */
-function showDown(string $p11, string $p12, string $p13,string $p21, string $p22, string $p23): array
+function showDown(string $p11, string $p12, string $p13, string $p21, string $p22, string $p23): array
 {
     // 引き数を扱いやすい形に直す
     $p1CardNumbers = getCards(array($p11, $p12, $p13)); // [13, 11, 9]
@@ -51,14 +50,20 @@ function getCards(array $cards): array // 'CK', 'DJ', 'H9' → [9, 11, 13]
     return $numbers;
 }
 
+/* ここを追加
+ * ツリーカードの判定関数を追加
+ */
 /**
  * @param array<int,int> $numbers
  */
-function getHand(array $numbers): string // [13, 11] → 'high card'
+function getHand(array $numbers): string // [9, 11, 13] → 'high card'
 {
     $hand = "";
 
-    if (isPair($numbers)) {
+    if (isThree($numbers)) {
+        $hand = "three card";
+        return $hand;
+    } elseif (isPair($numbers)) {
         $hand = "pair";
         return $hand;
     } elseif (isStraight($numbers)) {
@@ -70,12 +75,23 @@ function getHand(array $numbers): string // [13, 11] → 'high card'
     return $hand;
 }
 
+/* ここを追加
+ * スリーカードの判定関数を作成
+ */
+/**
+ * @param array<int,int> $numbers
+ */
+function isThree(array $numbers): bool
+{
+    return count(array_unique($numbers)) === 1;
+}
+
 /**
  * @param array<int,int> $numbers
  */
 function isPair(array $numbers): bool
 {
-    return count(array_unique($numbers)) === 1;
+    return count(array_unique($numbers)) === 2;
 }
 
 /**
