@@ -54,7 +54,7 @@ function getCards(array $cards): array // 'CK', 'DJ', 'H9' → [13, 11, 9]
 /**
  * @param array<int,int> $numbers
  */
-function getHand(array $numbers): string // [13, 11, 9] → 'high card'
+function getHand(array $numbers): string // array_unique → 'high card'
 {
     $hand = "";
 
@@ -164,9 +164,6 @@ function judgeWinner(array $p1CardNumbers, array $p2CardNumbers, string $p1Hand,
     }
 }
 
-/* ここを修正
- * 比較方法を修正
- */
 /**
  * @param array<int,int> $p1CardNumbers
  * @param array<int,int> $p2CardNumbers
@@ -188,21 +185,34 @@ function compareHighCardHands(array $p1CardNumbers, array $p2CardNumbers): int
     }
 }
 
+/* ここを修正
+ * 判定方法を変更
+ */
 /**
  * @param array<int,int> $p1CardNumbers
  * @param array<int,int> $p2CardNumbers
  */
 function comparePairHands(array $p1CardNumbers, array $p2CardNumbers): int
 {
-    // 例外を先に処理。[1, 1] を持っているプレイヤーが勝ち。
-    if (in_array(1, $p1CardNumbers, true)) {
-        return PLAYER1;
-    } elseif (in_array(1, $p2CardNumbers, true)) {
-        return PLAYER2;
+    // ペアの数字同士のランクを比較
+    $p1PairNumber = array_keys(array_count_values($p1CardNumbers), 2);
+    $p2PairNumber = array_keys(array_count_values($p2CardNumbers), 2);
+
+    if ($p1PairNumber !== $p2PairNumber) {
+        // 例外を先に処理。[1, 1] を持っているプレイヤーが勝ち
+        if ($p1PairNumber[0] === 1) {
+            return PLAYER1;
+        } elseif ($p2PairNumber[0] === 1) {
+            return PLAYER2;
+        }
+        // 強い数字のペアの勝ち
+        return isStronger($p1PairNumber, $p1PairNumber, 0);
     }
 
-    // 数字が強いほうが勝ち
-    return isStronger($p1CardNumbers, $p2CardNumbers, 1);
+    // ペアではない3枚目同士のランクを比較
+    $p1NotPair = array_keys(array_count_values($p1CardNumbers), 1);
+    $p2NotPair = array_keys(array_count_values($p2CardNumbers), 1);
+    return isStronger($p1NotPair, $p2NotPair, 0);
 }
 
 /**
