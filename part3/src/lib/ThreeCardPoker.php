@@ -33,6 +33,9 @@ function showDown(string $p11, string $p12, string $p13, string $p21, string $p2
     return [$p1Hand, $p2Hand, $winner]; // p1の役、p2の役、勝利者の番号
 }
 
+/* ここを修正
+ * カードの並びを降順に変更
+ */
 /**
  * @param array<int,string> $cards
  * @return array<int,int>
@@ -46,7 +49,7 @@ function getCards(array $cards): array // 'CK', 'DJ', 'H9' → [9, 11, 13]
         $numbers[] = CARDS[$card];
     }
 
-    sort($numbers, SORT_NUMERIC);
+    ksort($numbers, SORT_NUMERIC);
     return $numbers;
 }
 
@@ -88,9 +91,6 @@ function isPair(array $numbers): bool
     return count(array_unique($numbers)) === 2;
 }
 
-/* ここを修正
- * 判定方法を変更
- */
 /**
  * @param array<int,int> $numbers
  */
@@ -105,7 +105,7 @@ function isStraight(array $numbers): bool
         return true;
     }
 
-    // ただし, [1, 12, 13]もストレート
+    // ただし, [13, 12 , 1]もストレート
     if (isQKA($numbers)) {
         return true;
     }
@@ -114,25 +114,27 @@ function isStraight(array $numbers): bool
 }
 
 /* ここを修正
- * 関数名をqka()に変更
- * 判定方法を変更
+ * $qkaの配列を降順に変更
  */
 /**
  * @param array<int,int> $numbers
  */
 function isQKA(array $numbers): bool
 {
-    $qka=[1, 12 ,13];
+    $qka=[13, 12 , 1];
     return $numbers === $qka;
 }
 
+/* ここを修正
+ * 役にthree cardを追加
+ */
 /**
  * @param array<int,int> $p1CardNumbers
  * @param array<int,int> $p2CardNumbers
  */
 function judgeWinner(array $p1CardNumbers, array $p2CardNumbers, string $p1Hand, string $p2Hand): int
 {
-    $handOrder = [0 => 'high card', 1 => 'pair', 2 => 'straight'];
+    $handOrder = [0 => 'high card', 1 => 'pair', 2 => 'three card', 3 => 'straight'];
 
     // 役の順位を取得
     $p1HandRank = [];
@@ -140,7 +142,7 @@ function judgeWinner(array $p1CardNumbers, array $p2CardNumbers, string $p1Hand,
     $p1HandRank['rank'] = array_search($p1Hand, $handOrder); // 0
     $p2HandRank['rank'] = array_search($p2Hand, $handOrder); // 1
 
-    // カードが2枚とも同じ数字の場合
+    // カードが全て同じ数字の場合
     if ($p1CardNumbers === $p2CardNumbers) {
         return DRAW;
     }
@@ -161,7 +163,7 @@ function judgeWinner(array $p1CardNumbers, array $p2CardNumbers, string $p1Hand,
     }
 
     // ストレート対決
-    if ($p1HandRank['rank'] === 2 && $p2HandRank['rank'] === 2) {
+    if ($p1HandRank['rank'] === 3 && $p2HandRank['rank'] === 3) {
         return compareStraightHands($p1CardNumbers, $p2CardNumbers);
     }
 }
