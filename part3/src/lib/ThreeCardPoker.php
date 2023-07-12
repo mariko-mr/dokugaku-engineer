@@ -15,6 +15,9 @@ const CARDS = [
     'C7' => 7, 'C8' => 8, 'C9' => 9, 'C10' => 10, 'CJ' => 11, 'CQ' => 12, 'CK' => 13
 ];
 
+/* ここを修正
+ * ksort → rsortに変更
+ */
 /**
  * @return array<int,string|int>
  */
@@ -47,7 +50,7 @@ function getCards(array $cards): array // 'CK', 'DJ', 'H9' → [13, 11, 9]
         $numbers[] = CARDS[$card];
     }
 
-    ksort($numbers, SORT_NUMERIC);
+    rsort($numbers, SORT_NUMERIC);
     return $numbers;
 }
 
@@ -230,9 +233,6 @@ function compareStraight(array $p1CardNumbers, array $p2CardNumbers): int
     return isStronger($p1CardNumbers, $p2CardNumbers, 0);
 }
 
-/* ここを修正
- * compareThreeCard()を作成
- */
 /**
  * @param array<int,int> $p1CardNumbers
  * @param array<int,int> $p2CardNumbers
