@@ -3,6 +3,7 @@
 const PLAYER1 = 1;
 const PLAYER2 = 2;
 const DRAW = 0;
+const COUNT_CARDS = 3;
 const CARDS = [
     'HA' => 1, 'H2' => 2, 'H3' => 3, 'H4' => 4, 'H5' => 5, 'H6' => 6,
     'H7' => 7, 'H8' => 8, 'H9' => 9, 'H10' => 10, 'HJ' => 11, 'HQ' => 12, 'HK' => 13,
@@ -119,9 +120,6 @@ function isQKA(array $numbers): bool
     return $numbers === $qka;
 }
 
-/* ここを修正
- * 役にthree cardを追加
- */
 /**
  * @param array<int,int> $p1CardNumbers
  * @param array<int,int> $p2CardNumbers
@@ -163,10 +161,12 @@ function judgeWinner(array $p1CardNumbers, array $p2CardNumbers, string $p1Hand,
 
     // スリーカード対決
     if ($p1HandRank['rank'] === 3 && $p2HandRank['rank'] === 3) {
-        
     }
 }
 
+/* ここを修正
+ * 比較方法を修正
+ */
 /**
  * @param array<int,int> $p1CardNumbers
  * @param array<int,int> $p2CardNumbers
@@ -180,13 +180,12 @@ function compareHighCardHands(array $p1CardNumbers, array $p2CardNumbers): int
         return PLAYER2;
     }
 
-    // 一番目に強い数字が同じ場合、二番目に強い数字で勝負
-    if ($p1CardNumbers[1] === $p2CardNumbers[1]) {
-        return isStronger($p1CardNumbers, $p2CardNumbers, 0);
+    // 一番強い数字同士を比較する
+    for ($i = 0; $i < COUNT_CARDS; $i++) {
+        if ($p1CardNumbers[$i] !== $p2CardNumbers[$i]) {
+            return isStronger($p1CardNumbers, $p2CardNumbers, $i);
+        }
     }
-
-    // 一番目に強い数字で勝負
-    return isStronger($p1CardNumbers, $p2CardNumbers, 1);
 }
 
 /**
