@@ -15,9 +15,6 @@ const CARDS = [
     'C7' => 7, 'C8' => 8, 'C9' => 9, 'C10' => 10, 'CJ' => 11, 'CQ' => 12, 'CK' => 13
 ];
 
-/* ここを修正
- * ksort → rsortに変更
- */
 /**
  * @return array<int,string|int>
  */
@@ -92,15 +89,18 @@ function isPair(array $numbers): bool
     return count(array_unique($numbers)) === 2;
 }
 
+/* ここを修正
+ * range($max, $min, 1)に変更
+ */
 /**
  * @param array<int,int> $numbers
  */
 function isStraight(array $numbers): bool
 {
     // 数字が連続している場合はストレート
-    $min = min($numbers);
     $max = max($numbers);
-    $range = range($min, $max, 1);
+    $min = min($numbers);
+    $range = range($max, $min, 1);
 
     if ($numbers === $range) {
         return true;
