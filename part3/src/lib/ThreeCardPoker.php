@@ -14,14 +14,15 @@ const CARDS = [
     'C7' => 7, 'C8' => 8, 'C9' => 9, 'C10' => 10, 'CJ' => 11, 'CQ' => 12, 'CK' => 13
 ];
 
+#引き数を増やす
 /**
  * @return array<int,string|int>
  */
-function showDown(string $p1Card1, string $p1Card2, string $p2Card1, string $p2Card2): array
+function showDown(string $p11, string $p12, string $p13,string $p21, string $p22, string $p23): array
 {
     // 引き数を扱いやすい形に直す
-    $p1CardNumbers = getCards(array($p1Card1, $p1Card2)); // [13, 11]
-    $p2CardNumbers = getCards(array($p2Card1, $p2Card2)); // [10, 10]
+    $p1CardNumbers = getCards(array($p11, $p12, $p13)); // [13, 11, 9]
+    $p2CardNumbers = getCards(array($p21, $p22, $p23)); // [10, 10, 3]
 
     // 役を判定する
     $p1Hand = getHand($p1CardNumbers); // 'high card'
@@ -33,14 +34,11 @@ function showDown(string $p1Card1, string $p1Card2, string $p2Card1, string $p2C
     return [$p1Hand, $p2Hand, $winner]; // p1の役、p2の役、勝利者の番号
 }
 
-/* ここを修正
- * 不要なコードを削除
- */
 /**
  * @param array<int,string> $cards
  * @return array<int,int>
  */
-function getCards(array $cards): array // 'CK', 'DJ' → [11, 13]
+function getCards(array $cards): array // 'CK', 'DJ', 'H9' → [9, 11, 13]
 {
     $numbers = [];
 
@@ -49,7 +47,6 @@ function getCards(array $cards): array // 'CK', 'DJ' → [11, 13]
         $numbers[] = CARDS[$card];
     }
 
-    // 数字順に並び替える
     sort($numbers, SORT_NUMERIC);
     return $numbers;
 }
