@@ -2,8 +2,8 @@
 
 const PLAYER1 = 1;
 const PLAYER2 = 2;
+const COUNT_PLAYER = 2;
 const DRAW = 0;
-const COUNT_CARDS = 3;
 const CARDS = [
     'HA' => 1, 'H2' => 2, 'H3' => 3, 'H4' => 4, 'H5' => 5, 'H6' => 6,
     'H7' => 7, 'H8' => 8, 'H9' => 9, 'H10' => 10, 'HJ' => 11, 'HQ' => 12, 'HK' => 13,
@@ -18,11 +18,12 @@ const CARDS = [
 /**
  * @return array<int,string|int>
  */
-function showDown(string $p11, string $p12, string $p13, string $p21, string $p22, string $p23): array
+function showDown(string ...$playerCards): array
 {
     // 引き数を扱いやすい形に直す
-    $p1CardNumbers = getCards(array($p11, $p12, $p13));
-    $p2CardNumbers = getCards(array($p21, $p22, $p23));
+    $chunkedNumbers = getCards($playerCards);
+    $p1CardNumbers = (array) $chunkedNumbers[0];
+    $p2CardNumbers = (array) $chunkedNumbers[1];
 
     // 役を判定する
     $p1Hand = getHand($p1CardNumbers); // 'high card'
@@ -38,23 +39,28 @@ function showDown(string $p11, string $p12, string $p13, string $p21, string $p2
  * @param array<int,string> $cards
  * @return array<int,int>
  */
-function getCards(array $cards): array // 'CK', 'DJ', 'H9' → [13, 11, 9]
+function getCards(array $cards): array // 'CK', 'DJ', 'H9', 'C10', 'H10', 'D10' → [13, 11, 9][10, 10, 10]
 {
+    // 整数型に変換
     $numbers = [];
-
     foreach ($cards as $card) {
-        //定数CARDSからキー'CK'の要素｢13｣を取得
         $numbers[] = CARDS[$card];
     }
 
-    rsort($numbers, SORT_NUMERIC);
-    return $numbers;
+    // プレイヤー毎にカードを分割する
+    $chunkedNumbers = array_chunk($numbers, count($numbers) / COUNT_PLAYER);
+
+    for ($i = 0; $i < COUNT_PLAYER; $i++) {
+        rsort($chunkedNumbers[$i], SORT_NUMERIC);
+    }
+
+    return $chunkedNumbers;
 }
 
 /**
  * @param array<int,int> $numbers
  */
-function getHand(array $numbers): string // array_unique → 'high card'
+function getHand(array $numbers): string
 {
     $hand = "";
 
@@ -78,7 +84,11 @@ function getHand(array $numbers): string // array_unique → 'high card'
  */
 function isThree(array $numbers): bool
 {
-    return count(array_unique($numbers)) === 1;
+    if (count($numbers) === 3) {
+        return count(array_unique($numbers)) === 1;
+    }
+
+    return false;
 }
 
 /**
@@ -86,12 +96,14 @@ function isThree(array $numbers): bool
  */
 function isPair(array $numbers): bool
 {
+    // カードが2枚の場合
+    if (count($numbers) === 2) {
+        return count(array_unique($numbers)) === 1;
+    }
+    // カードが3枚の場合
     return count(array_unique($numbers)) === 2;
 }
 
-/* ここを修正
- * range($max, $min, 1)に変更
- */
 /**
  * @param array<int,int> $numbers
  */
@@ -107,11 +119,24 @@ function isStraight(array $numbers): bool
     }
 
     // ただし, [13, 12 , 1]もストレート
-    if (isQKA($numbers)) {
+    if (count($numbers) === 3 && isQKA($numbers)) {
+        return true;
+    }
+
+    // ただし, [13, 1]もストレート
+    if (count($numbers) === 2 && isKingAndAce($numbers)) {
         return true;
     }
 
     return false;
+}
+
+/**
+ * @param array<int,int> $numbers
+ */
+function isKingAndAce(array $numbers): bool
+{
+    return in_array(13, $numbers, true) && in_array(1, $numbers, true);
 }
 
 /**
@@ -181,8 +206,9 @@ function compareHighCard(array $p1CardNumbers, array $p2CardNumbers): int
         return PLAYER2;
     }
 
+    $countCards = count($p1CardNumbers);
     // 一番強い数字同士を比較する
-    for ($i = 0; $i < COUNT_CARDS; $i++) {
+    for ($i = 0; $i < $countCards; $i++) {
         if ($p1CardNumbers[$i] !== $p2CardNumbers[$i]) {
             return isStronger($p1CardNumbers, $p2CardNumbers, $i);
         }
@@ -222,10 +248,10 @@ function comparePair(array $p1CardNumbers, array $p2CardNumbers): int
  */
 function compareStraight(array $p1CardNumbers, array $p2CardNumbers): int
 {
-    // 例外を先に処理。[13, 12, 1] が最強。
-    if (isQKA($p1CardNumbers)) {
+    // [13, ..., 1]を持っていれば最強
+    if (isKingAndAce($p1CardNumbers)) {
         return PLAYER1;
-    } elseif (isQKA($p2CardNumbers)) {
+    } elseif (isKingAndAce($p2CardNumbers)) {
         return PLAYER2;
     }
 
