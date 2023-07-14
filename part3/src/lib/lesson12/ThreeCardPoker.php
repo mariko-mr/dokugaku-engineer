@@ -18,7 +18,7 @@ const CARDS = [
 /**
  * @return array<int,string|int>
  */
-function showDown(string $p11, string $p12, string $p13, string $p21, string $p22, string $p23): array
+function threeCardPokerShowDown(string $p11, string $p12, string $p13, string $p21, string $p22, string $p23): array
 {
     // 引き数を扱いやすい形に直す
     $p1CardNumbers = getCards(array($p11, $p12, $p13));

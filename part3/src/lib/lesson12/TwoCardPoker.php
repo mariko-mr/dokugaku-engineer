@@ -17,7 +17,7 @@ const CARDS = [
 /**
  * @return array<int,string|int>
  */
-function showDown(string $p1Card1, string $p1Card2, string $p2Card1, string $p2Card2): array
+function twoCardPokerShowDown(string $p1Card1, string $p1Card2, string $p2Card1, string $p2Card2): array
 {
     // 引き数を扱いやすい形に直す
     $p1CardNumbers = getCards(array($p1Card1, $p1Card2)); // [13, 11]
