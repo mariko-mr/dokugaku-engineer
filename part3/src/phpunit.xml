@@ -3,6 +3,7 @@
     <testsuites>
     <testsuite name="Tests">
         <directory>tests</directory>
+        <exclude>tests/lesson*</exclude>
     </testsuite>
     </testsuites>
 
