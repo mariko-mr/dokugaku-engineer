@@ -8,7 +8,22 @@ class Player
 
     public function drawCards()
     {
-        // TODO: 仮実装
+        $cards = $this->prepareCards();
+        $cards = $this->shuffleCards($cards);
+        return $this->selectCards($cards);
+    }
+
+    private function prepareCards()
+    {
+    }
+
+    private function shuffleCards($cards)
+    {
+    }
+
+
+    private function selectCards($cards)
+    {
         return ['H10', 'D10'];
     }
 }
