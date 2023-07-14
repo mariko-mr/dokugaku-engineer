@@ -10,8 +10,9 @@ final class PlayerTest extends TestCase
 {
     public function testDrawCards(): void
     {
+        $deck = new Deck();
         $player = new Player('まこと');
-        $cards = $player->drawCards();
+        $cards = $player->drawCards($deck, 2);
         $this->assertSame(2, count($cards));
     }
 }
