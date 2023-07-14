@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-require_once (__DIR__ . '/../lib/ReBreadShopSales.php');
+require_once (__DIR__ . '/../../lib/lesson9/ReBreadShopSales.php');
 
 final class ReBreadShopSalesTest
  extends TestCase

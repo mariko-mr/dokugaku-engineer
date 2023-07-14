@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once(__DIR__ . '/../lib/HitAndBlow.php');
+require_once(__DIR__ . '/../../lib/lesson12/HitAndBlow.php');
 
 final class HitAndBlowTest extends TestCase
 {

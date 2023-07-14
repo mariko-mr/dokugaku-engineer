@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once(__DIR__ . '/../lib/ReSuperMarket.php');
+require_once(__DIR__ . '/../../lib/lesson11/ReSuperMarket.php');
 
 final class ReSuperMarketTest extends TestCase
 {

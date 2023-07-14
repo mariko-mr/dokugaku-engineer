@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once(__DIR__ . '/../lib/SuperMarket.php');
+require_once(__DIR__ . '/../../lib/lesson11/SuperMarket.php');
 final class SuperMarketTest extends TestCase
 {
     public function testCalc(): void
