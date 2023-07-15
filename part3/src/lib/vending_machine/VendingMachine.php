@@ -1,21 +1,23 @@
 <?php
+
+require_once(__DIR__ . '/../../lib/vending_machine/Item.php');
 class VendingMachine
 {
-    private const DRINK_PRICE = 100;
-    private int $depositedCoin = 0 ;
+    private int $depositedCoin = 0;
+    private const COIN = 100;
 
     public function depositCoin(int $coin): int
     {
-        if ($coin === self::DRINK_PRICE) {
-            $this->depositedCoin = $coin;
+        if ($coin === self::COIN) {
+            $this->depositedCoin += $coin;
         }
         return $this->depositedCoin;
     }
 
-    public function pressButton(): string
+    public function pressButton(Item $item): string
     {
-        if ($this->depositedCoin === self::DRINK_PRICE) {
-            return 'cider';
+        if ($this->depositedCoin >= $item->getPrice()) {
+            return $item->getName();
         }
 
         return '';
