@@ -2,7 +2,7 @@
 
 require_once('Rule.php');
 
-class RuleB extends Rule
+class RuleB implements Rule
 {
     public function getHand(array $cards): string
     {

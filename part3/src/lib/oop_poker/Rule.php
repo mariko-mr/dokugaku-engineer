@@ -1,6 +1,6 @@
 <?php
 
-abstract class Rule
+interface Rule
 {
-    abstract public function getHand(array $cards);
+     public function getHand(array $cards);
 }
