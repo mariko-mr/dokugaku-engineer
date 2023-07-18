@@ -14,6 +14,15 @@ class VendingMachine
         return $this->depositedCoin;
     }
 
+    /**
+     * ここを追加
+     *
+     */
+    public function addCup(int $cupNumber): int
+    {
+        return 100;
+    }
+
     public function pressButton(Drink $drink): string
     {
         $price = $drink->getPrice();
