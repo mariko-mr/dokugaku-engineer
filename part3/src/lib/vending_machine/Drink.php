@@ -1,23 +1,20 @@
 <?php
 
-class Drink
+require_once(__DIR__ . '/../../lib/vending_machine/Item.php');
+class Drink extends Item
 {
-    const DRINK = [
+    private const DRINK = [
         'cider' => 100,
         'coke' => 150,
     ];
 
-    public function __construct(private string $name)
-    {
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
     public function getPrice(): int
     {
         return self::DRINK[$this->name];
+    }
+
+    public function getCupNumber(): int
+    {
+        return 0;
     }
 }

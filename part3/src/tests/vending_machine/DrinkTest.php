@@ -19,6 +19,12 @@ final class DrinkTest extends TestCase
         $coke = new Drink('coke');
         $this->assertSame(150, $coke->getPrice());
     }
+
+    public function getCupNumber()
+    {
+        $coke = new Drink('coke');
+        $this->assertSame(0, $coke->getCupNumber());
+    }
 }
 
 // docker compose exec app ./vendor/bin/phpunit tests/vending_machine/DrinkTest.php --bootstrap vendor/autoload.php

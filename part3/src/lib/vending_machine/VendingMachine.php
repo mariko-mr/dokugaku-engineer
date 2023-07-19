@@ -1,10 +1,14 @@
 <?php
 
+require_once(__DIR__ . '/../../lib/vending_machine/Item.php');
 require_once(__DIR__ . '/../../lib/vending_machine/Drink.php');
+require_once(__DIR__ . '/../../lib/vending_machine/CupDrink.php');
 class VendingMachine
 {
     private int $depositedCoin = 0;
+    private int $cup = 0;
     private const COIN = 100;
+    private const MAX_CUP = 100;
 
     public function depositCoin(int $coin): int
     {
@@ -14,21 +18,25 @@ class VendingMachine
         return $this->depositedCoin;
     }
 
-    /**
-     * ここを追加
-     *
-     */
     public function addCup(int $cupNumber): int
     {
-        return 100;
+        if (($this->cup + $cupNumber) > self::MAX_CUP) {
+            $this->cup = self::MAX_CUP;
+            return $this->cup;
+        }
+
+        return $this->cup += $cupNumber;
     }
 
-    public function pressButton(Drink $drink): string
+    public function pressButton(Item $item): string
     {
-        $price = $drink->getPrice();
-        if ($this->depositedCoin >= $price) {
+        $price = $item->getPrice();
+        $cupNumber = $item->getCupNumber();
+
+        if ($this->depositedCoin >= $price && $this->cup >= $cupNumber) {
             $this->depositedCoin -= $price;
-            return $drink->getName();
+            $this->cup -= $cupNumber;
+            return $item->getName();
         }
 
         return '';

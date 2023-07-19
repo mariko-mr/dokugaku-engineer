@@ -44,13 +44,14 @@ final class VendingMachineTest extends TestCase
         $vendingMachine->depositCoin(100);
         $this->assertSame('coke', $vendingMachine->pressButton($coke));
 
+        // カップを入れた場合は購入できる
+        $vendingMachine->addCup(1);
+        $vendingMachine->depositCoin(100);
+        $this->assertSame('hot cup coffee', $vendingMachine->pressButton($hotCupCoffee));
+
         // カップが投入されていない場合は購入できない
         $vendingMachine->depositCoin(100);
         $this->assertSame('', $vendingMachine->pressButton($hotCupCoffee));
-
-        // カップを入れた場合は購入できる
-        $vendingMachine->addCup(1);
-        $this->assertSame('hot cup coffee', $vendingMachine->pressButton($hotCupCoffee));
     }
 }
 
