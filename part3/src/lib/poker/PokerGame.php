@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__ . '/../../lib/poker/PokerCard.php');
+require_once(__DIR__ . '/../../lib/poker/HandJudger.php');
 class PokerGame
 {
     public function __construct(private array $cards1, private array $cards2)
@@ -8,16 +10,20 @@ class PokerGame
 
     public function pokerStart(): array
     {
-        $playerCardRanks = [];
+        $playerCardHands = [];
 
         foreach ([$this->cards1, $this->cards2] as $cards) {
-            // ['CA', 'DA']それぞれに new PokerCard インスタンスを作る
-            // $pokerCards = [new PokerCard('CA'), new PokerCard('DA')]
+            // [new PokerCard('CA'), new PokerCard('DA')]
             $pokerCards = array_map(fn ($card) => new PokerCard($card), $cards);
-            $player = new PokerPlayer($pokerCards);
-            $playerCardRanks[] = $player->getRanks();
+
+            /**
+             * ここを追加
+             * PokerPlayerクラスは不要になったので削除
+             */
+            $handJudger = new HandJudger($pokerCards);
+            $playerCardHands[] = $handJudger->getHand();
         }
 
-        return $playerCardRanks;
+        return $playerCardHands;
     }
 }
