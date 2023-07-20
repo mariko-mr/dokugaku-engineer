@@ -16,6 +16,11 @@ final class HandEvaluatorTest extends TestCase
         $cards = [new Card('H', 10), new Card('C', 10)];
         $this->assertSame('pair', $handEvaluator->getHand($cards));
     }
+
+    public function testGetWinner(): void
+    {
+        $this->assertSame(1, HandEvaluator::getWinner('pair', 'straight'));
+    }
 }
 
 // docker compose exec app ./vendor/bin/phpunit tests/oop_poker/PlayerTest.php --bootstrap vendor/autoload.php

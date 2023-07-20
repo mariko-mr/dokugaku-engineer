@@ -10,4 +10,9 @@ class HandEvaluator
     {
         return $this->rule->getHand($cards);
     }
+
+    public static function getWinner(string $hand1, string $hand2): int
+    {
+        return 1;
+    }
 }

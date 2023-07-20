@@ -10,9 +10,9 @@ final class GameTest extends TestCase
 {
     public function testStart(): void
     {
-        $game = new Game('まこと', 2, 'A');
+        $game = new Game('たなか', 'さとう', 2, 'A');
         $result = $game->start();
-        $this->assertSame('pair', $result);
+        $this->assertSame(1, $result);
     }
 }
 
