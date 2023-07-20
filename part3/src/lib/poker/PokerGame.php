@@ -18,7 +18,7 @@ class PokerGame
         foreach ([$this->cards1, $this->cards2] as $cards) {
             // [new PokerCard('CA'), new PokerCard('DA')]
             $pokerCards = array_map(fn ($card) => new PokerCard($card), $cards);
-            $rule = $this->getPokerRule();
+            $rule = $this->getPokerRule($cards);
             $handJudger = new HandJudger($rule);
             $playerCardHands[] = $handJudger->getHand($pokerCards);
         }
@@ -26,17 +26,17 @@ class PokerGame
         return $playerCardHands;
     }
 
-    private function getPokerRule()
+    private function getPokerRule(array $cards): Rule
     {
-        if (count($this->cards1) === 2 && count($this->cards2) === 2) {
+        if (count($cards) === 2) {
             return new RuleTwoCard();
         }
 
-        if (count($this->cards1) === 3 && count($this->cards2) === 3) {
+        if (count($cards) === 3) {
             return new RuleThreeCard();
         }
 
-        if (count($this->cards1) === 5 && count($this->cards2) === 5) {
+        if (count($cards) === 5) {
             return new RuleFiveCard();
         }
     }
