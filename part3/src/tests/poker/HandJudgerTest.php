@@ -5,22 +5,17 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 require_once(__DIR__ . '/../../lib/poker/HandJudger.php');
+require_once(__DIR__ . '/../../lib/poker/RuleTwoCard.php');
 
 final class HandJudgerTest extends TestCase
 {
-    public function testGetHands(): void
+    public function testGetHand(): void
     {
-        $handJudger = new HandJudger([new PokerCard('C3'), new PokerCard('DA')]);
-        $this->assertSame('high card', $handJudger->getHand());
-
-        $handJudger = new HandJudger([new PokerCard('CA'), new PokerCard('DA')]);
-        $this->assertSame('pair', $handJudger->getHand());
-
-        $handJudger = new HandJudger([new PokerCard('CA'), new PokerCard('D2')]);
-        $this->assertSame('straight', $handJudger->getHand());
-
-        $handJudger = new HandJudger([new PokerCard('CA'), new PokerCard('DK')]);
-        $this->assertSame('straight', $handJudger->getHand());
+        $handJudger = new HandJudger(new RuleTwoCard());
+        $this->assertSame('high card', $handJudger->getHand([new PokerCard('C3'), new PokerCard('DA')]));
+        $this->assertSame('pair', $handJudger->getHand([new PokerCard('CA'), new PokerCard('DA')]));
+        $this->assertSame('straight', $handJudger->getHand([new PokerCard('CA'), new PokerCard('D2')]));
+        $this->assertSame('straight', $handJudger->getHand([new PokerCard('CA'), new PokerCard('DK')]));
     }
 }
 
