@@ -1,6 +1,8 @@
 <?php
 
+namespace OopPoker;
+
 require_once('Game.php');
 
-$game = new Game('まこと', 2, 'A');
+$game = new Game('yamada','yamada', 2, 'A');
 $game->start();

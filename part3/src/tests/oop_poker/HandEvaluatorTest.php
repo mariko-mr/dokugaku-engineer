@@ -2,7 +2,12 @@
 
 declare(strict_types=1);
 
+namespace OopPoker\Tests;
+
 use PHPUnit\Framework\TestCase;
+use OopPoker\HandEvaluator;
+use OopPoker\RuleA;
+use OopPoker\Card;
 
 require_once(__DIR__ . '/../../lib/oop_poker/HandEvaluator.php');
 require_once(__DIR__ . '/../../lib/oop_poker/Card.php');
@@ -23,4 +28,4 @@ final class HandEvaluatorTest extends TestCase
     }
 }
 
-// docker compose exec app ./vendor/bin/phpunit tests/oop_poker/PlayerTest.php --bootstrap vendor/autoload.php
+// docker compose exec app ./vendor/bin/phpunit tests/oop_poker/HandEvaluatorTest.php --bootstrap vendor/autoload.php

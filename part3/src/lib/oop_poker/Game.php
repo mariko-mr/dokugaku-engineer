@@ -1,5 +1,7 @@
 <?php
 
+namespace OopPoker;
+
 require_once('Player.php');
 require_once('Deck.php');
 require_once('HandEvaluator.php');

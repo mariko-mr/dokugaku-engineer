@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
+namespace OopPoker\Tests;
+
 use PHPUnit\Framework\TestCase;
+use OopPoker\RuleB;
+use OopPoker\Card;
 
 require_once(__DIR__ . '/../../lib/oop_poker/RuleB.php');
 require_once(__DIR__ . '/../../lib/oop_poker/Card.php');
