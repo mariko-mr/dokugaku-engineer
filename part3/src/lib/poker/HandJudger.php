@@ -4,7 +4,7 @@ require_once(__DIR__ . '/../../lib/poker/PokerCard.php');
 
 class HandJudger
 {
-    public function __construct(private $rule)
+    public function __construct(private Rule $rule)
     {
     }
 
