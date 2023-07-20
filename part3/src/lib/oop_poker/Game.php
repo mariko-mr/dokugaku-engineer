@@ -5,6 +5,7 @@ require_once('Deck.php');
 require_once('HandEvaluator.php');
 require_once('RuleA.php');
 require_once('RuleB.php');
+require_once('RuleC.php');
 
 class Game
 {
@@ -31,6 +32,10 @@ class Game
 
         if ($this->ruleType === 'B') {
             return new RuleB;
+        }
+
+        if ($this->ruleType === 'C') {
+            return new RuleC;
         }
     }
 }
