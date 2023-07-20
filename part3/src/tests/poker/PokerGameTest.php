@@ -17,6 +17,10 @@ final class PokerGameTest extends TestCase
         // カードが3枚の場合
         $game2 = new PokerGame(['C2', 'D2', 'S2'], ['C10', 'H9', 'DJ']);
         $this->assertSame(['three of a kind', 'straight'], $game2->pokerStart());
+
+        // カードが5枚の場合
+        $game3 = new PokerGame(['C2', 'D2', 'S2', 'H2', 'C3'], ['C10', 'H9', 'DK', 'DQ', 'SJ']);
+        $this->assertSame(['four of a kind', 'straight'], $game3->pokerStart());
     }
 }
 

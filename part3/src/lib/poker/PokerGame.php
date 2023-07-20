@@ -4,6 +4,7 @@ require_once(__DIR__ . '/../../lib/poker/PokerCard.php');
 require_once(__DIR__ . '/../../lib/poker/HandJudger.php');
 require_once(__DIR__ . '/../../lib/poker/RuleTwoCard.php');
 require_once(__DIR__ . '/../../lib/poker/RuleThreeCard.php');
+require_once(__DIR__ . '/../../lib/poker/RuleFiveCard.php');
 class PokerGame
 {
     public function __construct(private array $cards1, private array $cards2)
@@ -27,12 +28,16 @@ class PokerGame
 
     private function getPokerRule()
     {
-        if (count($this->cards1) === count($this->cards2) === 2) {
+        if (count($this->cards1) === 2 && count($this->cards2) === 2) {
             return new RuleTwoCard();
         }
 
-        if (count($this->cards1) === count($this->cards2) === 3) {
+        if (count($this->cards1) === 3 && count($this->cards2) === 3) {
             return new RuleThreeCard();
+        }
+
+        if (count($this->cards1) === 5 && count($this->cards2) === 5) {
+            return new RuleFiveCard();
         }
     }
 }
