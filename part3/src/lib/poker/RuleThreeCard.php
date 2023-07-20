@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . '/../../lib/poker/Rule.php');
 
-class RuleThreeCard extends Rule
+class RuleThreeCard implements Rule
 {
     public function getHand(array $pokerCards): string
     {
