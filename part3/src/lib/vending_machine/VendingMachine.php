@@ -3,6 +3,8 @@
 require_once(__DIR__ . '/../../lib/vending_machine/Item.php');
 require_once(__DIR__ . '/../../lib/vending_machine/Drink.php');
 require_once(__DIR__ . '/../../lib/vending_machine/CupDrink.php');
+require_once(__DIR__ . '/../../lib/vending_machine/Snack.php');
+
 class VendingMachine
 {
     private int $depositedCoin = 0;
