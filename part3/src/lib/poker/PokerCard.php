@@ -1,5 +1,6 @@
 <?php
 
+namespace Poker;
 class PokerCard
 {
     const CARD_RANK = [

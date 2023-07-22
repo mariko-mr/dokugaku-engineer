@@ -1,5 +1,7 @@
 <?php
 
+namespace Poker;
+
 require_once(__DIR__ . '/../../lib/poker/Rule.php');
 
 class RuleFiveCard implements Rule

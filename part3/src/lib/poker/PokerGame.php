@@ -1,5 +1,7 @@
 <?php
 
+namespace Poker;
+
 require_once(__DIR__ . '/../../lib/poker/PokerCard.php');
 require_once(__DIR__ . '/../../lib/poker/HandJudger.php');
 require_once(__DIR__ . '/../../lib/poker/RuleTwoCard.php');

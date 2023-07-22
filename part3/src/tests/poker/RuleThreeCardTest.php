@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
+namespace Poker\Tests;
+
 use PHPUnit\Framework\TestCase;
+use Poker\RuleThreeCard;
+use Poker\PokerCard;
 
 require_once(__DIR__ . '/../../lib/poker/RuleThreeCard.php');
 require_once(__DIR__ . '/../../lib/poker/PokerCard.php');

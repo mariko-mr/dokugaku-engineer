@@ -2,7 +2,12 @@
 
 declare(strict_types=1);
 
+namespace Poker\Tests;
+
 use PHPUnit\Framework\TestCase;
+use Poker\HandJudger;
+use Poker\RuleTwoCard;
+use Poker\PokerCard;
 
 require_once(__DIR__ . '/../../lib/poker/HandJudger.php');
 require_once(__DIR__ . '/../../lib/poker/RuleTwoCard.php');
