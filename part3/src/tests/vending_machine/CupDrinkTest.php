@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+namespace VendingMachine\Tests;
+
 use PHPUnit\Framework\TestCase;
+use VendingMachine\CupDrink;
 
 require_once(__DIR__ . '/../../lib/vending_machine/CupDrink.php');
 

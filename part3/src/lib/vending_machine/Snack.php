@@ -1,5 +1,7 @@
 <?php
 
+namespace VendingMachine;
+
 require_once(__DIR__ . '/../../lib/vending_machine/Item.php');
 
 class Snack extends Item

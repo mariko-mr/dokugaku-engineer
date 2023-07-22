@@ -1,5 +1,7 @@
 <?php
 
+namespace VendingMachine;
+
 require_once(__DIR__ . '/../../lib/vending_machine/Item.php');
 require_once(__DIR__ . '/../../lib/vending_machine/Drink.php');
 require_once(__DIR__ . '/../../lib/vending_machine/CupDrink.php');
