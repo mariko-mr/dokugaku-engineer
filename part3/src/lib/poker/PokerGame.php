@@ -15,17 +15,22 @@ class PokerGame
 
     public function pokerStart(): array
     {
-        $playerCardHands = [];
+        $hands = [];
 
         foreach ([$this->cards1, $this->cards2] as $cards) {
             // [new PokerCard('CA'), new PokerCard('DA')]
             $pokerCards = array_map(fn ($card) => new PokerCard($card), $cards);
             $rule = $this->getPokerRule($cards);
             $handJudger = new HandJudger($rule);
-            $playerCardHands[] = $handJudger->getHand($pokerCards);
+            $hands[] = $handJudger->getHand($pokerCards);
         }
+        /**
+         * ここを修正
+         *
+         */
+        $winner = $handJudger->getWinner($hands[0], $hands[1]);
 
-        return $playerCardHands;
+        return [$hands[0]['hand'], $hands[1]['hand'], $winner];
     }
 
     private function getPokerRule(array $cards): Rule

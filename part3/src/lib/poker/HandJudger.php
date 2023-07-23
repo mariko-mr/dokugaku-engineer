@@ -10,8 +10,13 @@ class HandJudger
     {
     }
 
-    public function getHand(array $pokerCards): string
+    public function getHand(array $pokerCards): array
     {
         return $this->rule->getHand($pokerCards);
+    }
+
+    public function getWinner(string $hand1, string $hand2): int
+    {
+        return $this->rule->getWinner($hand1, $hand2);
     }
 }

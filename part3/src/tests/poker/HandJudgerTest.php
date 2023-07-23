@@ -17,10 +17,23 @@ final class HandJudgerTest extends TestCase
     public function testGetHand(): void
     {
         $handJudger = new HandJudger(new RuleTwoCard());
-        $this->assertSame('high card', $handJudger->getHand([new PokerCard('C3'), new PokerCard('DA')]));
-        $this->assertSame('pair', $handJudger->getHand([new PokerCard('CA'), new PokerCard('DA')]));
-        $this->assertSame('straight', $handJudger->getHand([new PokerCard('CA'), new PokerCard('D2')]));
-        $this->assertSame('straight', $handJudger->getHand([new PokerCard('CA'), new PokerCard('DK')]));
+        $this->assertSame(['hand_name' => 'high card', 'hand_rank' => 1, 'card_rank_1' => 2,  'card_rank_2' => 13], $handJudger->getHand([new PokerCard('C3'), new PokerCard('DA')]));
+        $this->assertSame(['hand_name' => 'pair',      'hand_rank' => 2, 'card_rank_1' => 13, 'card_rank_2' => 13], $handJudger->getHand([new PokerCard('CA'), new PokerCard('DA')]));
+        $this->assertSame(['hand_name' => 'straight',  'hand_rank' => 3, 'card_rank_1' => 1,  'card_rank_2' => 13], $handJudger->getHand([new PokerCard('CA'), new PokerCard('D2')]));
+        $this->assertSame(['hand_name' => 'straight',  'hand_rank' => 3, 'card_rank_1' => 12, 'card_rank_2' => 13], $handJudger->getHand([new PokerCard('CA'), new PokerCard('DK')]));
+    }
+
+    /**
+     * TODO: ここを追加
+     *
+     */
+    public function testGetWinner(): void
+    {
+        $handJudger = new HandJudger(new RuleTwoCard());
+        $this->assertSame(1, $handJudger->getWinner());
+        $this->assertSame(1, $handJudger->getWinner());
+        $this->assertSame(1, $handJudger->getWinner());
+        $this->assertSame(1, $handJudger->getWinner());
     }
 }
 
