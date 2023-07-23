@@ -16,6 +16,10 @@ class RuleTwoCard implements Rule
         'straight' => 3,
     ];
 
+    private const PLAYER1 = 1;
+    private const PLAYER2 = 2;
+    private const DRAW = 0;
+
     public function getHand(array $pokerCards): array
     {
         // [new PokerCard('CA'), new PokerCard('DA')] → [13, 13]
@@ -66,14 +70,14 @@ class RuleTwoCard implements Rule
     {
         foreach (['hand_rank', 'card_rank_1', 'card_rank_2'] as $k) {
             if ($hand1[$k] > $hand2[$k]) {
-                return 1;
+                return self::PLAYER1;
             }
 
             if ($hand1[$k] < $hand2[$k]) {
-                return 2;
+                return self::PLAYER2;
             }
         }
 
-        return 0;
+        return self::DRAW;
     }
 }
