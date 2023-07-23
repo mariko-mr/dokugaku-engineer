@@ -26,8 +26,13 @@ class RuleTwoCard implements Rule
 
         if ($this->isPair($cardRanks[0], $cardRanks[1])) {
             $hand = self::PAIR;;
-        } elseif ($this->isStraight($cardRanks[0], $cardRanks[1])) {
+        }
+
+        if ($this->isStraight($cardRanks[0], $cardRanks[1])) {
             $hand = self::STRAIGHT;
+            if ($this->isMinMax($cardRanks[0], $cardRanks[1])) {
+                sort($cardRanks);
+            }
         }
 
         return [
@@ -68,5 +73,7 @@ class RuleTwoCard implements Rule
                 return 2;
             }
         }
+
+        return 0;
     }
 }

@@ -18,7 +18,7 @@ final class RuleTwoCardTest extends TestCase
         $rule = new RuleTwoCard();
         $this->assertSame(['hand_name' => 'high card', 'hand_rank' => 1, 'card_rank_1' => 13,  'card_rank_2' => 2], $rule->getHand([new PokerCard('C3'), new PokerCard('DA')]));
         $this->assertSame(['hand_name' => 'pair',      'hand_rank' => 2, 'card_rank_1' => 13, 'card_rank_2' => 13], $rule->getHand([new PokerCard('CA'), new PokerCard('DA')]));
-        $this->assertSame(['hand_name' => 'straight',  'hand_rank' => 3, 'card_rank_1' => 13,  'card_rank_2' => 1], $rule->getHand([new PokerCard('CA'), new PokerCard('D2')]));
+        $this->assertSame(['hand_name' => 'straight',  'hand_rank' => 3, 'card_rank_1' => 1,  'card_rank_2' => 13], $rule->getHand([new PokerCard('CA'), new PokerCard('D2')]));
         $this->assertSame(['hand_name' => 'straight',  'hand_rank' => 3, 'card_rank_1' => 13, 'card_rank_2' => 12], $rule->getHand([new PokerCard('CA'), new PokerCard('DK')]));
     }
 
