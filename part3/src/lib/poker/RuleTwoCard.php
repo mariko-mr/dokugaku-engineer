@@ -20,7 +20,7 @@ class RuleTwoCard implements Rule
     {
         // [new PokerCard('CA'), new PokerCard('DA')] → [13, 13]
         $cardRanks = array_map(fn ($pokerCard) => $pokerCard->getRank(), $pokerCards);
-        sort($cardRanks);
+        rsort($cardRanks);
 
         $hand = self::HIGH_CARD;
 
@@ -60,6 +60,13 @@ class RuleTwoCard implements Rule
     public function getWinner(string $hand1, string $hand2)
     {
         foreach (['hand_rank', 'card_rank_1', 'card_rank_2'] as $k) {
+            if ($hand1[$k] > $hand2[$k]) {
+                return 1;
+            }
+
+            if ($hand1[$k] < $hand2[$k]) {
+                return 2;
+            }
         }
     }
 }

@@ -22,7 +22,7 @@ class RuleThreeCard implements Rule
     {
         // [new PokerCard('C2'), new PokerCard('D2'), new PokerCard('D2')] → [1, 1, 1]
         $cardRanks = array_map(fn ($pokerCard) => $pokerCard->getRank(), $pokerCards);
-        sort($cardRanks);
+        rsort($cardRanks);
 
         $hand = self::HIGH_CARD;
 
@@ -51,12 +51,12 @@ class RuleThreeCard implements Rule
     private function isStraight($cardRanks): bool
     {
         // 数字が連続している場合はストレート
-        $range = range(min($cardRanks), max($cardRanks), 1);
+        $range = range(max($cardRanks), min($cardRanks), 1);
         if ($cardRanks === $range) {
             return true;
         }
 
-        // 例外, [1, 2, 13]もストレート
+        // 例外, [13, 2, 1]もストレート
         if ($this->isMinMax($cardRanks)) {
             return true;
         }
@@ -71,7 +71,7 @@ class RuleThreeCard implements Rule
 
     private function isMinMax($cardRanks): bool
     {
-        return $cardRanks === [min(PokerCard::CARD_RANK), min(PokerCard::CARD_RANK) + 1, max(PokerCard::CARD_RANK)];
+        return $cardRanks === [max(PokerCard::CARD_RANK), min(PokerCard::CARD_RANK) + 1, min(PokerCard::CARD_RANK)];
     }
 
     /**
@@ -81,7 +81,6 @@ class RuleThreeCard implements Rule
     public function getWinner(string $hand1, string $hand2)
     {
         foreach (['hand_rank', 'card_rank_1', 'card_rank_2', 'card_rank_3'] as $k) {
-
         }
     }
 }
