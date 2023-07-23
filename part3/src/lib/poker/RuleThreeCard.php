@@ -18,9 +18,13 @@ class RuleThreeCard implements Rule
         'three of a kind' => 4,
     ];
 
+    private const PLAYER1 = 1;
+    private const PLAYER2 = 2;
+    private const DRAW = 0;
+
     public function getHand(array $pokerCards): array
     {
-        // [new PokerCard('C2'), new PokerCard('D2'), new PokerCard('D2')] → [1, 1, 1]
+        // [new PokerCard('C3'), new PokerCard('DA'), new PokerCard('D2')] → [13, 2, 1]
         $cardRanks = array_map(fn ($pokerCard) => $pokerCard->getRank(), $pokerCards);
         rsort($cardRanks);
 
@@ -30,6 +34,9 @@ class RuleThreeCard implements Rule
             $hand = self::PAIR;
         } elseif ($this->isStraight($cardRanks)) {
             $hand = self::STRAIGHT;
+            if ($this->isMinMax($cardRanks)) { // A-2-3 の組み合わせの場合、3 を一番強い数字とする
+                $cardRanks = [2, 1, 13];
+            }
         } elseif ($this->isThreeCard($cardRanks)) {
             $hand = self::THREE_CARD;
         }
@@ -78,9 +85,53 @@ class RuleThreeCard implements Rule
      * ここを修正
      *
      */
-    public function getWinner(string $hand1, string $hand2)
+    public function getWinner(array $hand1, array $hand2): int
+    {
+        $ranks1 = [$hand1['card_rank_1'], $hand1['card_rank_2'], $hand1['card_rank_3']];
+        $ranks2 = [$hand2['card_rank_1'], $hand2['card_rank_2'], $hand2['card_rank_3']];
+        // ペア対決
+        if ($hand1['hand_rank'] === 2 && $hand2['hand_rank'] === 2) {
+            return $this->comparePair($ranks1, $ranks2);
+        }
+
+        return $this->isStronger($hand1, $hand2);
+    }
+
+    private function isStronger($hand1, $hand2): int
     {
         foreach (['hand_rank', 'card_rank_1', 'card_rank_2', 'card_rank_3'] as $k) {
+            if ($hand1[$k] > $hand2[$k]) {
+                return self::PLAYER1;
+            }
+
+            if ($hand1[$k] < $hand2[$k]) {
+                return self::PLAYER2;
+            }
         }
+
+        return self::DRAW;
+    }
+
+    private function comparePair(array $rank1, array $rank2): int
+    {
+        // ペアの数字同士のランクを比較
+        $pairRank1 = array_keys(array_count_values($rank1), 2);
+        $pairRank2 = array_keys(array_count_values($rank2), 2);
+        if ($pairRank1 > $pairRank2) {
+            return self::PLAYER1;
+        } elseif ($pairRank1 < $pairRank2) {
+            return self::PLAYER2;
+        }
+
+        // ペアではない3枚目同士のランクを比較
+        $notPair1 = array_keys(array_count_values($rank1), 1);
+        $notPair2 = array_keys(array_count_values($rank2), 1);
+        if ($notPair1 > $notPair2) {
+            return self::PLAYER1;
+        } elseif ($notPair1 < $notPair2) {
+            return self::PLAYER2;
+        }
+
+        return self::DRAW;
     }
 }
