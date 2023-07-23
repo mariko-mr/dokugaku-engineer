@@ -66,7 +66,7 @@ class RuleTwoCard implements Rule
      * ここを修正
      *
      */
-    public function getWinner(string $hand1, string $hand2)
+    public function getWinner(array $hand1, array $hand2): int
     {
         foreach (['hand_rank', 'card_rank_1', 'card_rank_2'] as $k) {
             if ($hand1[$k] > $hand2[$k]) {
