@@ -5,5 +5,5 @@ interface Rule
 {
     public function getHand(array $pokerCards);
 
-    public function getWinner(string $hand1, string $hand2);
+    public function getWinner(array $hand1, array $hand2);
 }

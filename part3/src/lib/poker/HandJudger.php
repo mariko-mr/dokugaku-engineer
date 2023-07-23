@@ -15,7 +15,7 @@ class HandJudger
         return $this->rule->getHand($pokerCards);
     }
 
-    public function getWinner(string $hand1, string $hand2): int
+    public function getWinner(array $hand1, array $hand2): int
     {
         return $this->rule->getWinner($hand1, $hand2);
     }
