@@ -30,7 +30,7 @@ class PokerGame
          */
         $winner = $handJudger->getWinner($hands[0], $hands[1]);
 
-        return [$hands[0]['hand'], $hands[1]['hand'], $winner];
+        return [$hands[0]['hand_name'], $hands[1]['hand_name'], $winner];
     }
 
     private function getPokerRule(array $cards): Rule

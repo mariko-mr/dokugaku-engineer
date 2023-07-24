@@ -88,4 +88,13 @@ class RuleFiveCard implements Rule
     {
         return $cardRanks === [min(PokerCard::CARD_RANK), min(PokerCard::CARD_RANK) + 1, min(PokerCard::CARD_RANK) + 2, min(PokerCard::CARD_RANK) + 3, max(PokerCard::CARD_RANK)];
     }
+
+    /**
+     * ここを仮追加
+     *
+     */
+    public function getWinner(array $hand1, array $hand2): int
+    {
+        return 1;
+    }
 }
