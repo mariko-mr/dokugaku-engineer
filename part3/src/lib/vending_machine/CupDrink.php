@@ -20,4 +20,12 @@ class CupDrink extends Item
     {
         return 1;
     }
+
+    /**
+     * TODO: ここを追加
+     */
+    public function getDepositNumber(): int
+    {
+        // TODO
+    }
 }

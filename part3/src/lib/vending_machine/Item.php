@@ -6,6 +6,10 @@ abstract class Item
 {
     abstract public function getPrice();
     abstract public function getCupNumber();
+    /**
+     * ここを追加
+     */
+    abstract public function getDepositNumber();
 
     public function __construct(protected string $name)
     {

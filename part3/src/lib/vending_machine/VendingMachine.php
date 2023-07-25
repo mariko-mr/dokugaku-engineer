@@ -32,6 +32,22 @@ class VendingMachine
         return $this->cup += $cupNumber;
     }
 
+    /**
+     * TODO: ここを追加
+     */
+    public function depositItem(Item $item, int $stock): int
+    {
+        return $item->getCupNumber();
+    }
+
+    /**
+     * TODO: ここを追加
+     */
+    public function receiveChange(): int
+    {
+
+    }
+
     public function pressButton(Item $item): string
     {
         $price = $item->getPrice();

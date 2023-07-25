@@ -19,4 +19,12 @@ class Snack extends Item
     {
         return 0;
     }
+
+    /**
+     * TODO: ここを追加
+     */
+    public function getDepositNumber(): int
+    {
+        // TODO
+    }
 }
