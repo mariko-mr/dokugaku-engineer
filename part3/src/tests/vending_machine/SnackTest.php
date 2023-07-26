@@ -23,10 +23,18 @@ final class SnackTest extends TestCase
         $this->assertSame(150, $potatoChips->getPrice());
     }
 
-    public function getCupNumber()
+    public function testGetCupNumber()
     {
         $potatoChips = new Snack('potato chips');
         $this->assertSame(0, $potatoChips->getCupNumber());
+    }
+
+    public function testDepositItem()
+    {
+        $coke = new Snack('potato chips');
+        $this->assertSame(0, $coke->depositItem(0));
+        $this->assertSame(30, $coke->depositItem(30));
+        $this->assertSame(50, $coke->depositItem(30));
     }
 }
 
