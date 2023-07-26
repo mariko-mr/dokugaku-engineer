@@ -23,10 +23,17 @@ final class DrinkTest extends TestCase
         $this->assertSame(150, $coke->getPrice());
     }
 
-    public function getCupNumber()
+    public function testGetCupNumber()
     {
         $coke = new Drink('coke');
         $this->assertSame(0, $coke->getCupNumber());
+    }
+
+    public function testDepositItem()
+    {
+        $coke = new Drink('coke');
+        $this->assertSame(50, $coke->depositItem(50));
+        $this->assertSame(70, $coke->depositItem(30));
     }
 }
 
