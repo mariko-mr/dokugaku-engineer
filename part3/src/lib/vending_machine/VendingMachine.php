@@ -3,6 +3,7 @@
 namespace VendingMachine;
 
 require_once(__DIR__ . '/../../lib/vending_machine/Item.php');
+require_once(__DIR__ . '/../../lib/vending_machine/DepositItem.php');
 require_once(__DIR__ . '/../../lib/vending_machine/Drink.php');
 require_once(__DIR__ . '/../../lib/vending_machine/CupDrink.php');
 require_once(__DIR__ . '/../../lib/vending_machine/Snack.php');
@@ -13,6 +14,7 @@ class VendingMachine
     private int $cup = 0;
     private const COIN = 100;
     private const MAX_CUP = 100;
+
 
     public function depositCoin(int $coin): int
     {
@@ -33,16 +35,13 @@ class VendingMachine
     }
 
     /**
-     * TODO: ここを追加
+     * ここを修正
      */
-    public function depositItem(Item $item, int $stock): int
+    public function depositItem(DepositItem $item, int $stock): int
     {
-        return $item->getDepositNumber();
+        return $item->depositItem($stock);
     }
 
-    /**
-     * TODO: ここを追加
-     */
     public function receiveChange(): int
     {
         $receiveCoin = $this->depositedCoin;
