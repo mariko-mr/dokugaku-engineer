@@ -4,7 +4,7 @@ namespace VendingMachine;
 
 require_once(__DIR__ . '/../../lib/vending_machine/Item.php');
 
-class Drink extends Item
+class Drink extends DepositItem
 {
     private const PRICE = [
         'cider' => 100,
@@ -24,7 +24,7 @@ class Drink extends Item
     /**
      * TODO: ここを追加
      */
-    public function getDepositNumber(): int
+    public function getMaxDeposit(): int
     {
         // TODO
     }
