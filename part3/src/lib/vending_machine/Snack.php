@@ -10,9 +10,6 @@ class Snack extends DepositItem
         'potato chips' => 150,
     ];
 
-    /**
-     * ここを追加
-     */
     private const MAX_STOCK = [
         'potato chips' => 50,
     ];
@@ -34,6 +31,11 @@ class Snack extends DepositItem
     /**
      * ここを追加
      */
+    public function getStock(): int
+    {
+        return $this->snackStock[$this->name];
+    }
+
     public function depositItem(int $stock): int
     {
         if ($this->snackStock[$this->name] + $stock > self::MAX_STOCK[$this->name]) {
@@ -41,5 +43,13 @@ class Snack extends DepositItem
         }
 
         return $this->snackStock[$this->name] += $stock;
+    }
+
+    /**
+     * ここを追加
+     */
+    public function reduceStock(): void
+    {
+        $this->snackStock[$this->name]--;
     }
 }

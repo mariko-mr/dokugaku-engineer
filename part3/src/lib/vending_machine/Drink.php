@@ -11,9 +11,6 @@ class Drink extends DepositItem
         'coke' => 150,
     ];
 
-    /**
-     * ここを追加
-     */
     private const MAX_STOCK = [
         'cider' => 50,
         'coke' => 70,
@@ -37,6 +34,11 @@ class Drink extends DepositItem
     /**
      * ここを追加
      */
+    public function getStock(): int
+    {
+        return $this->drinkStock[$this->name];
+    }
+
     public function depositItem(int $stock): int
     {
         if ($this->drinkStock[$this->name] + $stock > self::MAX_STOCK[$this->name]) {
@@ -44,5 +46,13 @@ class Drink extends DepositItem
         }
 
         return $this->drinkStock[$this->name] += $stock;
+    }
+
+    /**
+     * ここを追加
+     */
+    public function reduceStock(): void
+    {
+        $this->drinkStock[$this->name]--;
     }
 }

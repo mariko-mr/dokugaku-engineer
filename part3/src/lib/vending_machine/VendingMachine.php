@@ -34,9 +34,6 @@ class VendingMachine
         return $this->cup += $cupNumber;
     }
 
-    /**
-     * ここを修正
-     */
     public function depositItem(DepositItem $item, int $stock): int
     {
         return $item->depositItem($stock);
@@ -53,10 +50,12 @@ class VendingMachine
     {
         $price = $item->getPrice();
         $cupNumber = $item->getCupNumber();
+        $stock = $item->getStock();
 
-        if ($this->depositedCoin >= $price && $this->cup >= $cupNumber) {
+        if ($this->depositedCoin >= $price && $this->cup >= $cupNumber && $stock > 0) {
             $this->depositedCoin -= $price;
             $this->cup -= $cupNumber;
+            $item->reduceStock();
             return $item->getName();
         }
 

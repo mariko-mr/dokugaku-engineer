@@ -20,4 +20,19 @@ class CupDrink extends Item
     {
         return 1;
     }
+
+    /**
+     * ここを追加
+     */
+    public function getStock(): int
+    {
+        return 1;
+    }
+
+    /**
+     * ここを追加
+     */
+    public function reduceStock(): void
+    {
+    }
 }
