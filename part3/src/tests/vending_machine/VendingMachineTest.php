@@ -30,9 +30,6 @@ final class VendingMachineTest extends TestCase
         $this->assertSame(100, $vendingMachine->addCup(1));
     }
 
-    /**
-     * ここを追加
-     */
     public function testDepositItem()
     {
         $vendingMachine = new VendingMachine();
@@ -42,9 +39,6 @@ final class VendingMachineTest extends TestCase
         $this->assertSame(50, $vendingMachine->depositItem($cider, 1));
     }
 
-    /**
-     * ここを追加
-     */
     public function testReceiveChange()
     {
         $vendingMachine = new VendingMachine();
@@ -61,51 +55,49 @@ final class VendingMachineTest extends TestCase
     /**
      * ここを修正
      */
-    // public function testPressButton()
-    // {
-    //     $cider = new Drink('cider');
-    //     $coke = new Drink('coke');
-    //     $hotCupCoffee = new CupDrink('hot cup coffee');
-    //     $potatoChips = new Snack('potato chips');
-    //     $vendingMachine = new VendingMachine();
+    public function testPressButton()
+    {
+        $cider = new Drink('cider');
+        $coke = new Drink('coke');
+        $hotCupCoffee = new CupDrink('hot cup coffee');
+        $potatoChips = new Snack('potato chips');
+        $vendingMachine = new VendingMachine();
 
-    //     // お金が投入されてない場合は購入できない
-    //     $this->assertSame('', $vendingMachine->pressButton($cider));
+        // お金が投入されてない場合は購入できない
+        $this->assertSame('', $vendingMachine->pressButton($cider));
 
-    //     /**
-    //      * ここを修正
-    //      */
-    //     // 商品の在庫がないと購入できない
-    //     $vendingMachine->depositCoin(100);
-    //     $this->assertSame('', $vendingMachine->pressButton($cider));
-    //     // 商品の在庫があると購入できる
-    //     $vendingMachine->depositItem($cider, 1);
-    //     $this->assertSame('cider', $vendingMachine->pressButton($cider));
+        /**
+         * ここを修正
+         */
+        // 商品の在庫がないと購入できない
+        $vendingMachine->depositCoin(100);
+        $this->assertSame('', $vendingMachine->pressButton($cider));
+        // 商品の在庫があると購入できる
+        $vendingMachine->depositItem($cider, 1);
+        $this->assertSame('cider', $vendingMachine->pressButton($cider));
 
-    //     // 投入金額が100円の場合はコーラを購入できない
-    //     $vendingMachine->depositCoin(100);
-    //     $vendingMachine->depositItem($cola, 1);
-    //     $this->assertSame('', $vendingMachine->pressButton($coke));
-    //     // もう100円を入れた後(コーラ)
-    //     $vendingMachine->depositCoin(100);
-    //     $this->assertSame('coke', $vendingMachine->pressButton($coke));
+        // 投入金額が100円の場合はコーラを購入できない
+        $vendingMachine->depositCoin(100);
+        $vendingMachine->depositItem($coke, 1);
+        $this->assertSame('', $vendingMachine->pressButton($coke));
+        // もう100円を入れた後(コーラ)
+        $vendingMachine->depositCoin(100);
+        $this->assertSame('coke', $vendingMachine->pressButton($coke));
 
-    //     // コーラのあまり50円に追加して100円を入れた後(ポテトチップス)
-    //     $vendingMachine->depositCoin(100);
-    //     $vendingMachine->depositItem($snack, 1);
-    //     $this->assertSame('potato chips', $vendingMachine->pressButton($potatoChips));
+        // コーラのあまり50円に追加して100円を入れた後(ポテトチップス)
+        $vendingMachine->depositCoin(100);
+        $vendingMachine->depositItem($potatoChips, 1);
+        $this->assertSame('potato chips', $vendingMachine->pressButton($potatoChips));
 
-    //     // カップを入れた場合は購入できる
-    //     $vendingMachine->addCup(1);
-    //     $vendingMachine->depositCoin(100);
-    //     $vendingMachine->depositItem($hotCupCoffee, 1);
-    //     $this->assertSame('hot cup coffee', $vendingMachine->pressButton($hotCupCoffee));
+        // カップを入れた場合は購入できる
+        $vendingMachine->addCup(1);
+        $vendingMachine->depositCoin(100);
+        $this->assertSame('hot cup coffee', $vendingMachine->pressButton($hotCupCoffee));
 
-    //     // カップが投入されていない場合は購入できない
-    //     $vendingMachine->depositCoin(100);
-    //     $vendingMachine->depositItem($hotCupCoffee, 1);
-    //     $this->assertSame('', $vendingMachine->pressButton($hotCupCoffee));
-    // }
+        // カップが投入されていない場合は購入できない
+        $vendingMachine->depositCoin(100);
+        $this->assertSame('', $vendingMachine->pressButton($hotCupCoffee));
+    }
 }
 
 // docker compose exec app ./vendor/bin/phpunit tests/vending_machine/VendingMachineTest.php --bootstrap vendor/autoload.php
