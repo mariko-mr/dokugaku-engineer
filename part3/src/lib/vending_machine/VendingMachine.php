@@ -37,7 +37,7 @@ class VendingMachine
      */
     public function depositItem(Item $item, int $stock): int
     {
-        return $item->getCupNumber();
+        return $item->getDepositNumber();
     }
 
     /**
@@ -45,7 +45,9 @@ class VendingMachine
      */
     public function receiveChange(): int
     {
-
+        $receiveCoin = $this->depositedCoin;
+        $this->depositedCoin -= $receiveCoin;
+        return $receiveCoin;
     }
 
     public function pressButton(Item $item): string
