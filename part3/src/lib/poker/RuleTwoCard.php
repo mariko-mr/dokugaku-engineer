@@ -47,7 +47,7 @@ class RuleTwoCard implements Rule
         ];
     }
 
-    public function isPair($rank1, $rank2): bool
+    private function isPair($rank1, $rank2): bool
     {
         return $rank1 === $rank2;
     }
