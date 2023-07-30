@@ -33,18 +33,24 @@ class PokerGame
         return [$hands[0]['hand_name'], $hands[1]['hand_name'], $winner];
     }
 
+    /**
+     * ここを修正
+     * ルールの種類を自動的に判別する方法の追加
+     */
     private function getPokerRule(array $cards): Rule
     {
-        if (count($cards) === 2) {
-            return new RuleTwoCard();
-        }
+        $ruleClasses = [
+            2 => RuleTwoCard::class,
+            3 => RuleThreeCard::class,
+            5 => RuleFiveCard::class,
+        ];
 
-        if (count($cards) === 3) {
-            return new RuleThreeCard();
-        }
+        $numCards = count($cards);
 
-        if (count($cards) === 5) {
-            return new RuleFiveCard();
-        }
+        if (isset($ruleClasses[$numCards])) {
+            return new $ruleClasses[$numCards]();
+        };
+
+        throw new \InvalidArgumentException('Invalid number of cards: ' . $numCards);
     }
 }
