@@ -23,12 +23,6 @@ final class SnackTest extends TestCase
         $this->assertSame(150, $potatoChips->getPrice());
     }
 
-    public function testGetCupNumber()
-    {
-        $potatoChips = new Snack('potato chips');
-        $this->assertSame(0, $potatoChips->getCupNumber());
-    }
-
     public function testDepositItem()
     {
         $coke = new Snack('potato chips');
@@ -36,6 +30,13 @@ final class SnackTest extends TestCase
         $this->assertSame(30, $coke->depositItem(30));
         $this->assertSame(50, $coke->depositItem(30));
     }
+
+    public function testGetStockNumber()
+    {
+        $potatoChips = new Snack('potato chips');
+        $this->assertSame(0, $potatoChips->getStockNumber());
+    }
+
 }
 
 // docker compose exec app ./vendor/bin/phpunit tests/vending_machine/SnackTest.php --bootstrap vendor/autoload.php

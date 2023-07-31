@@ -23,10 +23,24 @@ final class CupDrinkTest extends TestCase
         $this->assertSame(100, $iceCupCoffee->getPrice());
     }
 
+    /**
+     * ここを追加
+     */
+    public function testAddCup()
+    {
+        $iceCupCoffee = new CupDrink('ice cup coffee');
+        $this->assertSame(50, $iceCupCoffee->addCup(50));
+        $this->assertSame(100, $iceCupCoffee->addCup(550));
+    }
+
+    /**
+     * ここを修正
+     * 期待される値を変更
+     */
     public function testGetCupNumber()
     {
         $iceCupCoffee = new CupDrink('ice cup coffee');
-        $this->assertSame(1, $iceCupCoffee->getCupNumber());
+        $this->assertSame(0, $iceCupCoffee->getCupNumber());
     }
 }
 

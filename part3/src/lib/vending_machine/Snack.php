@@ -23,31 +23,28 @@ class Snack extends DepositItem
         return self::PRICE[$this->name];
     }
 
-    public function getCupNumber(): int
+    /**
+     * ここを修正
+     * $stockを$stockNumberに変更
+     */
+    public function depositItem(int $stockNumber): int
     {
-        return 0;
+        if ($this->snackStock[$this->name] + $stockNumber > self::MAX_STOCK[$this->name]) {
+            return $this->snackStock[$this->name] = self::MAX_STOCK[$this->name];
+        }
+
+        return $this->snackStock[$this->name] += $stockNumber;
     }
 
     /**
-     * ここを追加
+     * ここを修正
+     * 変数名を変更
      */
-    public function getStock(): int
+    public function getStockNumber(): int
     {
         return $this->snackStock[$this->name];
     }
 
-    public function depositItem(int $stock): int
-    {
-        if ($this->snackStock[$this->name] + $stock > self::MAX_STOCK[$this->name]) {
-            return $this->snackStock[$this->name] = self::MAX_STOCK[$this->name];
-        }
-
-        return $this->snackStock[$this->name] += $stock;
-    }
-
-    /**
-     * ここを追加
-     */
     public function reduceStock(): void
     {
         $this->snackStock[$this->name]--;

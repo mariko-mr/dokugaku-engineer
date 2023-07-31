@@ -25,9 +25,10 @@ final class VendingMachineTest extends TestCase
     public function testAddCup()
     {
         $vendingMachine = new VendingMachine();
-        $this->assertSame(99, $vendingMachine->addCup(99));
-        $this->assertSame(100, $vendingMachine->addCup(1));
-        $this->assertSame(100, $vendingMachine->addCup(1));
+        $hotCupCoffee = new CupDrink('hot cup coffee');
+        $this->assertSame(99, $vendingMachine->addCup($hotCupCoffee, 99));
+        $this->assertSame(100, $vendingMachine->addCup($hotCupCoffee, 1));
+        $this->assertSame(100, $vendingMachine->addCup($hotCupCoffee, 1));
     }
 
     public function testDepositItem()
@@ -57,18 +58,15 @@ final class VendingMachineTest extends TestCase
      */
     public function testPressButton()
     {
+        $vendingMachine = new VendingMachine();
         $cider = new Drink('cider');
         $coke = new Drink('coke');
         $hotCupCoffee = new CupDrink('hot cup coffee');
         $potatoChips = new Snack('potato chips');
-        $vendingMachine = new VendingMachine();
 
         // お金が投入されてない場合は購入できない
         $this->assertSame('', $vendingMachine->pressButton($cider));
 
-        /**
-         * ここを修正
-         */
         // 商品の在庫がないと購入できない
         $vendingMachine->depositCoin(100);
         $this->assertSame('', $vendingMachine->pressButton($cider));
@@ -90,7 +88,7 @@ final class VendingMachineTest extends TestCase
         $this->assertSame('potato chips', $vendingMachine->pressButton($potatoChips));
 
         // カップを入れた場合は購入できる
-        $vendingMachine->addCup(1);
+        $vendingMachine->addCup($hotCupCoffee, 1);
         $vendingMachine->depositCoin(100);
         $this->assertSame('hot cup coffee', $vendingMachine->pressButton($hotCupCoffee));
 
