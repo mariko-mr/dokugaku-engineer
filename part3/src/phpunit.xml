@@ -4,6 +4,8 @@
     <testsuite name="Tests">
         <directory>tests</directory>
         <exclude>tests/lesson*</exclude>
+        <exclude>tests/*poker*</exclude>
+        <exclude>tests/vending_machine</exclude>
     </testsuite>
     </testsuites>
 

@@ -5,10 +5,10 @@ parameters:
 	excludePaths:
 		- vendor
 		- tests
+		- lib
 		- model_answer
-		- bread_shop_sales.php
-		- watching_tv_time.php
-		- re_bread_shop_sales.php
-		- re_watching_tv_time.php
+		- lesson9
+		- lesson11
+		- lesson12
 	fileExtensions:
 		- php

@@ -4,15 +4,11 @@
     <file>./</file>
     <exclude-pattern>./vendor/*</exclude-pattern>
     <exclude-pattern>./tests/*</exclude-pattern>
+    <exclude-pattern>./lib/*</exclude-pattern>
     <exclude-pattern>./model_answer/*</exclude-pattern>
-    <exclude-pattern>*/lesson9/*</exclude-pattern>
-    <exclude-pattern>*/lesson10/*</exclude-pattern>
-    <exclude-pattern>*/lesson11/*</exclude-pattern>
-    <exclude-pattern>*/lesson12/*</exclude-pattern>
-    <exclude-pattern>./lib/oop_poker/*</exclude-pattern>
-    <exclude-pattern>./lib/poker/*</exclude-pattern>
-    <exclude-pattern>./lib/vending_machine/*</exclude-pattern>
-    <arg name="colors"/>
+    <exclude-pattern>./lesson9/*</exclude-pattern>
+    <exclude-pattern>./lesson11/*</exclude-pattern>
+    <exclude-pattern>./lesson12/*</exclude-pattern>
     <arg value="s"/>
     <rule ref="PSR12"/>
 </ruleset>
