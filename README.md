@@ -33,6 +33,8 @@
 2023/08/10-2023/10/17
 ### 学んだこと
 Docker / Dockerfile / Docker compose/ Linux / Git / GitHub / GitHub Flow / プルリクエストの流れ
+### 作成した課題
+[ブラックジャックゲーム](https://github.com/mariko-mr/blackjack)
 
 ## part7
 ### 学習期間
